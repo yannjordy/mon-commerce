@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiques – Boutique Élégance</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-primary: linear-gradient(135deg, #fce4ec 0%, #e1bee7 100%);
+            --bg-secondary: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 8px 32px rgba(199, 125, 255, 0.15);
+            --accent: #d4a5d8;
+            --gold: #daa520;
+            --pink: #f8bbd0;
+            --purple: #ce93d8;
+            --violet: #ba68c8;
+            --rose: #f48fb1;
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: linear-gradient(135deg, #1a0a1f 0%, #2d1b3d 100%);
+            --bg-secondary: #1e1e2e;
+            --text-primary: #f0f0f0;
+            --text-secondary: #b0b0b0;
+            --card-bg: rgba(45, 27, 61, 0.8);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.5s ease;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 32px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 32px;
+            animation: slideDown 0.6s ease;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--rose) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-retour {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            color: var(--purple);
+            border: 2px solid var(--purple);
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-retour:hover {
+            background: var(--purple);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(206, 147, 216, 0.3);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--rose) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(186, 104, 200, 0.3);
+        }
+        
+        .theme-toggle {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--rose) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(186, 104, 200, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(186, 104, 200, 0.5);
+        }
+
+        /* Navigation mobile */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .mobile-nav.active {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .mobile-nav-content {
+            background: white;
+            width: 80%;
+            max-width: 300px;
+            height: 100%;
+            padding: 32px;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.2);
+            animation: slideInRight 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--purple);
+        }
+
+        .mobile-nav-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--rose) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .mobile-nav-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .mobile-nav-list {
+            list-style: none;
+        }
+
+        .mobile-nav-item {
+            margin-bottom: 12px;
+        }
+
+        .mobile-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-link:hover,
+        .mobile-nav-item.active .mobile-nav-link {
+            background: linear-gradient(135deg, var(--purple) 0%, var(--rose) 100%);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 32px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--purple), var(--rose), var(--gold));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .card:hover::before {
+            transform: translateX(0);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 48px rgba(199, 125, 255, 0.25);
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--rose) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 20px rgba(186, 104, 200, 0.3);
+        }
+        
+        .card-title {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Quicksand', sans-serif;
+        }
+        
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+        
+        /* Graphiques */
+        .graphs {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .graph-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 32px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 1s ease;
+        }
+        
+        .graph-container h2 {
+            font-size: 1.3rem;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        canvas {
+            max-width: 100%;
+            height: auto !important;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 24px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            animation: fadeIn 1.2s ease;
+        }
+        
+        footer span {
+            background: linear-gradient(135deg, var(--purple) 0%, var(--rose) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .graphs {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                flex-direction: column;
+                padding: 16px;
+                text-align: center;
+            }
+            
+            header h1 {
+                font-size: 1.4rem;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn-retour {
+                font-size: 0.85rem;
+                padding: 8px 16px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .card {
+                padding: 24px;
+            }
+
+            .card-value {
+                font-size: 2rem;
+            }
+
+            .graph-container {
+                padding: 20px;
+            }
+
+            .graph-container h2 {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.2rem;
+                gap: 8px;
+            }
+
+            .btn-retour {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+
+            .card-value {
+                font-size: 1.8rem;
+            }
+
+            .theme-toggle {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            <a href="tableau.html" class="btn-retour">← Retour</a>
+            ✨ Statistiques – Boutique Élégance
+        </h1>
+        <div class="header-actions">
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <button class="theme-toggle" id="themeToggle">
+                <span id="themeIcon">🌙</span>
+                <span id="themeText">Mode sombre</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Menu mobile -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-content">
+            <div class="mobile-nav-header">
+                <h2 class="mobile-nav-title">Menu</h2>
+                <button class="mobile-nav-close" onclick="toggleMobileMenu()">✕</button>
+            </div>
+            <ul class="mobile-nav-list">
+                <li class="mobile-nav-item">
+                    <a href="tableau.html" class="mobile-nav-link">
+                        <span>📊</span>
+                        <span>Tableau de bord</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item active">
+                    <a href="statistique.html" class="mobile-nav-link">
+                        <span>📈</span>
+                        <span>Statistiques</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="produit.html" class="mobile-nav-link">
+                        <span>🛍️</span>
+                        <span>Produits</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="commandes.html" class="mobile-nav-link">
+                        <span>📦</span>
+                        <span>Commandes</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="client.html" class="mobile-nav-link">
+                        <span>👥</span>
+                        <span>Clients</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="messages.html" class="mobile-nav-link">
+                        <span>💬</span>
+                        <span>Messages</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Cartes statistiques -->
+    <section class="cards">
+        <div class="card">
+            <div class="card-icon">📦</div>
+            <div class="card-title">Total Produits</div>
+            <div class="card-value" id="totalProduits">0</div>
+            <div class="card-subtitle" id="produitsSubtitle">Chargement...</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-icon">🛍️</div>
+            <div class="card-title">Total Ventes</div>
+            <div class="card-value" id="totalVentes">0</div>
+            <div class="card-subtitle" id="ventesSubtitle">Chargement...</div>
+        </div>
+        
+        <div class="card">
+            <div class="card-icon">💰</div>
+            <div class="card-title">Revenu Total</div>
+            <div class="card-value" id="revenuTotal">0</div>
+            <div class="card-subtitle">FCFA</div>
+        </div>
+    </section>
+    
+    <!-- Graphiques -->
+    <section class="graphs">
+        <div class="graph-container">
+            <h2>📊 Ventes par catégorie</h2>
+            <canvas id="barChart"></canvas>
+        </div>
+        
+        <div class="graph-container">
+            <h2>🥧 Répartition produits</h2>
+            <canvas id="pieChart"></canvas>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 <span>Boutique Élégance Dashboard</span> - Tous droits réservés</p>
+    </footer>
+    
+    <script>
+        let barChart, pieChart;
+        let produits = [];
+        let commandes = [];
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('✨ Dashboard initialisé !');
+            
+            loadTheme();
+            chargerDonnees();
+            calculerStatistiques();
+            
+            setTimeout(() => {
+                initCharts();
+            }, 500);
+            
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        });
+
+        function chargerDonnees() {
+            // Charger les produits
+            const produitsStockes = localStorage.getItem('produits_ecommerce');
+            if (produitsStockes) {
+                produits = JSON.parse(produitsStockes);
+                console.log(`✅ ${produits.length} produit(s) chargé(s)`);
+            }
+
+            // Charger les commandes
+            const commandesStockees = localStorage.getItem('commandes_ecommerce');
+            if (commandesStockees) {
+                commandes = JSON.parse(commandesStockees);
+                console.log(`✅ ${commandes.length} commande(s) chargée(s)`);
+            }
+        }
+
+        function calculerStatistiques() {
+            // Total produits
+            const totalProduits = produits.length;
+            const produitsPublies = produits.filter(p => p.statut === 'published').length;
+            
+            // Total ventes (commandes)
+            const totalVentes = commandes.length;
+            const ventesLivrees = commandes.filter(c => c.statut === 'delivered').length;
+            
+            // Revenu total
+            let revenuTotal = 0;
+            commandes.forEach(cmd => {
+                if (cmd.statut !== 'cancelled') {
+                    revenuTotal += cmd.montantTotal;
+                }
+            });
+
+            // Animer les compteurs
+            animerCompteur('totalProduits', totalProduits);
+            animerCompteur('totalVentes', totalVentes);
+            animerCompteur('revenuTotal', revenuTotal, true);
+
+            // Sous-titres
+            document.getElementById('produitsSubtitle').textContent = `${produitsPublies} publiés`;
+            document.getElementById('ventesSubtitle').textContent = `${ventesLivrees} livrées`;
+        }
+
+        function animerCompteur(elementId, target, isRevenu = false) {
+            const element = document.getElementById(elementId);
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+            
+            const updateCounter = () => {
+                current += increment;
+                
+                if (current < target) {
+                    if (isRevenu) {
+                        element.textContent = Math.floor(current).toLocaleString('fr-FR');
+                    } else {
+                        element.textContent = Math.floor(current);
+                    }
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = isRevenu ? target.toLocaleString('fr-FR') : target;
+                }
+            };
+            
+            setTimeout(updateCounter, 300);
+        }
+        
+        function initCharts() {
+            const colors = {
+                purple: '#ce93d8',
+                pink: '#f8bbd0',
+                rose: '#f48fb1',
+                violet: '#ba68c8',
+                gold: '#daa520'
+            };
+
+            // Préparer les données par catégorie
+            const categories = {};
+            produits.forEach(produit => {
+                const cat = produit.categorie || 'Autre';
+                categories[cat] = (categories[cat] || 0) + 1;
+            });
+
+            const categoriesLabels = Object.keys(categories);
+            const categoriesData = Object.values(categories);
+            
+            // Graphique en barres - Produits par catégorie
+            const ctxBar = document.getElementById('barChart').getContext('2d');
+            
+            barChart = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: categoriesLabels.length > 0 ? categoriesLabels : ['Aucune donnée'],
+                    datasets: [{
+                        label: 'Produits',
+                        data: categoriesData.length > 0 ? categoriesData : [0],
+                        backgroundColor: createGradient(ctxBar, colors.purple, colors.pink),
+                        borderRadius: 12,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(45, 27, 61, 0.9)',
+                            padding: 12,
+                            cornerRadius: 8,
+                            titleFont: {
+                                size: 14,
+                                family: 'Poppins'
+                            },
+                            bodyFont: {
+                                size: 13,
+                                family: 'Poppins'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(199, 125, 255, 0.1)'
+                            },
+                            ticks: {
+                                font: {
+                                    family: 'Poppins'
+                                },
+                                stepSize: 1
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    family: 'Poppins'
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+            
+            // Graphique circulaire - Répartition par catégorie
+            const ctxPie = document.getElementById('pieChart').getContext('2d');
+            
+            const pieColors = [colors.purple, colors.pink, colors.rose, colors.violet, colors.gold];
+            
+            pieChart = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: categoriesLabels.length > 0 ? categoriesLabels : ['Aucune donnée'],
+                    datasets: [{
+                        data: categoriesData.length > 0 ? categoriesData : [1],
+                        backgroundColor: pieColors.slice(0, categoriesLabels.length || 1),
+                        borderWidth: 0,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                font: {
+                                    family: 'Poppins',
+                                    size: 12
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(45, 27, 61, 0.9)',
+                            padding: 12,
+                            cornerRadius: 8,
+                            titleFont: {
+                                size: 14,
+                                family: 'Poppins'
+                            },
+                            bodyFont: {
+                                size: 13,
+                                family: 'Poppins'
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart',
+                        animateRotate: true,
+                        animateScale: true
+                    }
+                }
+            });
+        }
+        
+        function createGradient(ctx, color1, color2) {
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, color1);
+            gradient.addColorStop(1, color2);
+            return gradient;
+        }
+        
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            
+            if (newTheme === 'dark') {
+                icon.textContent = '☀️';
+                text.textContent = 'Mode clair';
+            } else {
+                icon.textContent = '🌙';
+                text.textContent = 'Mode sombre';
+            }
+            
+            updateChartColors(newTheme);
+        }
+        
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            
+            if (savedTheme === 'dark') {
+                icon.textContent = '☀️';
+                text.textContent = 'Mode clair';
+            }
+        }
+        
+        function updateChartColors(theme) {
+            if (!barChart || !pieChart) return;
+            
+            const gridColor = theme === 'dark' 
+                ? 'rgba(255, 255, 255, 0.1)' 
+                : 'rgba(199, 125, 255, 0.1)';
+            
+            const textColor = theme === 'dark' ? '#f0f0f0' : '#333333';
+            
+            barChart.options.scales.y.grid.color = gridColor;
+            barChart.options.scales.y.ticks.color = textColor;
+            barChart.options.scales.x.ticks.color = textColor;
+            barChart.update();
+            
+            pieChart.options.plugins.legend.labels.color = textColor;
+            pieChart.update();
+        }
+
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('active');
+        }
+
+        document.getElementById('mobileNav').addEventListener('click', (e) => {
+            if (e.target.id === 'mobileNav') {
+                toggleMobileMenu();
+            }
+        });
+        
+        console.log('%c✨ Boutique Élégance Dashboard ✨', 'color: #ce93d8; font-size: 20px; font-weight: bold;');
+        console.log('%cTableau de bord chargé avec succès !', 'color: #f8bbd0; font-size: 14px;');
+    </script>
+    
+</body>
+</html>

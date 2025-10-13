@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord - Ma Boutique Élégante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #C77DFF;
+            --secondary-color: #F3D1F4;
+            --accent-color: #B983FF;
+            --bg-general: #F8F7FB;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --white: #FFFFFF;
+            --gradient-purple-pink: linear-gradient(135deg, #C77DFF 0%, #F3D1F4 100%);
+            --gradient-soft: linear-gradient(135deg, #E5D1FA 0%, #F8F7FB 100%);
+            --shadow-light: 0 4px 15px rgba(199, 125, 255, 0.1);
+            --shadow-medium: 0 8px 25px rgba(199, 125, 255, 0.15);
+            --shadow-heavy: 0 12px 35px rgba(199, 125, 255, 0.2);
+            --spacing-xs: 8px;
+            --spacing-sm: 12px;
+            --spacing-md: 20px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.5s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-general);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-light);
+            z-index: 1000;
+            animation: slideDown var(--transition-medium);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md) var(--spacing-lg);
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .logo-image {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--gradient-purple-pink);
+        }
+
+        .brand-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            background: var(--gradient-purple-pink);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-navigation {
+            flex-grow: 1;
+            margin: 0 var(--spacing-lg);
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-md);
+            justify-content: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-md);
+            transition: var(--transition-fast);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            background: rgba(199, 125, 255, 0.08);
+        }
+
+        .nav-item.active .nav-link {
+            color: var(--primary-color);
+            background: rgba(199, 125, 255, 0.12);
+            font-weight: 600;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-xl);
+            background: var(--gradient-soft);
+            cursor: pointer;
+        }
+
+        .avatar-image {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--gradient-purple-pink);
+            border: 2px solid var(--primary-color);
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            gap: var(--spacing-lg);
+            padding: calc(80px + var(--spacing-lg)) var(--spacing-lg) var(--spacing-lg);
+            max-width: 1920px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .sidebar-left {
+            background: var(--gradient-purple-pink);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-medium);
+            position: sticky;
+            top: calc(80px + var(--spacing-lg));
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .btn-new-product {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-md);
+            background: var(--white);
+            color: var(--primary-color);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition-fast);
+        }
+
+        .btn-new-product:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .sidebar-title {
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.9;
+        }
+
+        .quick-links-list {
+            list-style: none;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: var(--transition-fast);
+            font-weight: 500;
+        }
+
+        .quick-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .kpi-card {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+            transition: var(--transition-fast);
+        }
+
+        .kpi-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--white);
+        }
+
+        .kpi-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+        }
+
+        .kpi-value {
+            color: var(--white);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .main-content {
+            background: var(--white);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+            animation: fadeIn var(--transition-medium);
+        }
+
+        .page-header {
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-purple-pink);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .product-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .form-section {
+            padding: var(--spacing-lg);
+            background: var(--gradient-soft);
+            border-radius: var(--radius-lg);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .required {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid rgba(199, 125, 255, 0.2);
+            border-radius: var(--radius-md);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            background: var(--white);
+            transition: var(--transition-fast);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(199, 125, 255, 0.15);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* NOUVELLES CLASSES POUR LES IMAGES DE DESCRIPTION */
+        .description-images-section {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--white);
+            border-radius: var(--radius-md);
+            border: 2px dashed rgba(199, 125, 255, 0.3);
+        }
+
+        .description-images-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .description-images-hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .description-images-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .description-image-slot {
+            position: relative;
+            aspect-ratio: 1;
+            border: 2px dashed rgba(199, 125, 255, 0.3);
+            border-radius: var(--radius-md);
+            background: var(--gradient-soft);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            overflow: hidden;
+        }
+
+        .description-image-slot:hover {
+            border-color: var(--primary-color);
+            background: rgba(199, 125, 255, 0.08);
+        }
+
+        .description-image-slot.has-image {
+            border-style: solid;
+            border-color: var(--primary-color);
+        }
+
+        .description-image-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .description-image-placeholder {
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .description-image-icon {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .description-image-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(244, 67, 54, 0.9);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: var(--transition-fast);
+            z-index: 10;
+        }
+
+        .description-image-remove:hover {
+            background: #f44336;
+            transform: scale(1.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .radio-item input[type="radio"] {
+            display: none;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--white);
+            border: 2px solid rgba(199, 125, 255, 0.2);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .radio-item input[type="radio"]:checked + .radio-label {
+            border-color: var(--primary-color);
+            background: rgba(199, 125, 255, 0.08);
+        }
+
+        .radio-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .radio-item input[type="radio"]:checked + .radio-label .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: flex-end;
+            margin-top: var(--spacing-lg);
+            padding-top: var(--spacing-lg);
+            border-top: 2px solid var(--secondary-color);
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            padding: var(--spacing-md) var(--spacing-xl);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .btn-primary {
+            background: var(--gradient-purple-pink);
+            color: var(--white);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(199, 125, 255, 0.1);
+        }
+
+        .sidebar-right {
+            position: sticky;
+            top: calc(80px + var(--spacing-lg));
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .preview-section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-light);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .sidebar-right .sidebar-title {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .product-preview-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+
+        .preview-image-container {
+            width: 100%;
+            height: 200px;
+            background: var(--gradient-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-content {
+            padding: var(--spacing-md);
+        }
+
+        .preview-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .preview-description {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .preview-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        /* ADAPTATION MOBILE */
+        @media (max-width: 900px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-left {
+                position: relative;
+                top: 0;
+            }
+
+            .sidebar-right {
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .description-images-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-sm);
+            }
+
+            .description-image-slot {
+                aspect-ratio: 16/9;
+            }
+
+            .main-navigation {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-container {
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
+
+            .brand-name {
+                font-size: 1.1rem;
+            }
+
+            .main-content {
+                padding: var(--spacing-md);
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .form-section {
+                padding: var(--spacing-md);
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="brand-section">
+                <div class="logo-image"></div>
+                <h1 class="brand-name">Ma Boutique Élégante</h1>
+            </div>
+
+            <nav class="main-navigation">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link">Tableau de bord</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="produit.html" class="nav-link">Produits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="commandes.html" class="nav-link">Commandes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="client.html" class="nav-link">Clients</a>
+                    </li>
+                </li>
+                <li class="nav-item">
+                    <a href="messages.html" class="nav-link">messages</a>
+                </li>
+                </ul>
+            </nav>
+
+    </header>
+
+    <div class="dashboard-container">
+        <aside class="sidebar-left">
+            <div class="action-section">
+                <button class="btn-new-product">
+                    <span>+</span>
+                    <span>Nouveau produit</span>
+                </button>
+            </div>
+
+            <nav class="quick-links">
+                <h2 class="sidebar-title">Navigation</h2>
+                <ul class="quick-links-list">
+                    <li><a href="statitique.html" class="quick-link">📊 Statistiques</a></li>
+                    <li><a href="categories.html" class="quick-link">📁 Catégories</a></li>
+                    <li><a href="parametre.html" class="quick-link">⚙️ Paramètres</a></li>
+                    <li><a href="produit.html" class="quick-link">📦 Produit</a></li>
+                    <li><a href="commandes.html" class="quick-link"> 📝commande</a></li>
+                    <li><a href="client.html" class="quick-link"> 🧑🏻client</a></li>
+                    <li><a href="messages.html" class="quick-link">🗩 message</a></li>
+                    <li><a href="e-commerce2.html" class="quick-link"> 🏪voir ma boutique</a></li>
+                </ul>
+            </nav>
+
+            <section class="kpi-section">
+                <h2 class="sidebar-title">Aujourd'hui</h2>
+                <div class="kpi-card">
+                    <div class="kpi-icon"></div>
+                    <div class="kpi-content">
+                        <p class="kpi-label">Chiffre d'affaires</p>
+                        <p class="kpi-value">0 FCFA</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon"></div>
+                    <div class="kpi-content">
+                        <p class="kpi-label">Commandes</p>
+                        <p class="kpi-value">0</p>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h2 class="page-title">Ajouter un nouveau produit</h2>
+                <p class="page-subtitle">Complétez les informations ci-dessous pour créer votre produit</p>
+            </div>
+
+            <form class="product-form" id="productForm">
+                <section class="form-section">
+                    <h3 class="section-title">Image principale du produit</h3>
+                    <p class="section-description">Ajoutez l'image principale qui représentera votre produit</p>
+                    
+                    <div class="image-upload-container" style="margin-top: 16px;">
+                        <label for="productMainImage" class="upload-label" style="cursor: pointer;">
+                            <div class="upload-zone" style="border: 3px dashed var(--primary-color); border-radius: 16px; padding: 32px; text-align: center; background: var(--white); transition: all 0.3s ease;">
+                                <div class="upload-icon" style="font-size: 3rem; margin-bottom: 16px;">📸</div>
+                                <p class="upload-text" style="font-weight: 600; color: var(--primary-color); margin-bottom: 8px;">Cliquez pour ajouter l'image principale</p>
+                                <p class="upload-hint" style="font-size: 0.85rem; color: var(--text-secondary);">PNG, JPG jusqu'à 5MB</p>
+                            </div>
+                        </label>
+                        <input type="file" id="productMainImage" accept="image/*" style="display: none;">
+                        
+                        <div id="mainImagePreview" style="margin-top: 16px; display: none;">
+                            <div style="position: relative; border-radius: 16px; overflow: hidden; max-width: 400px; margin: 0 auto; box-shadow: 0 8px 25px rgba(199, 125, 255, 0.2);">
+                                <img id="mainImagePreviewImg" style="width: 100%; height: 250px; object-fit: cover;">
+                                <button type="button" id="removeMainImage" style="position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; background: rgba(244, 67, 54, 0.9); color: white; border: none; cursor: pointer; font-size: 1.5rem; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">×</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h3 class="section-title">Informations de base</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nom du produit <span class="required">*</span></label>
+                        <input type="text" id="productName" class="form-input" placeholder="Ex: Robe élégante fleurie" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description <span class="required">*</span></label>
+                        <textarea id="productDescription" class="form-textarea" placeholder="Décrivez votre produit en détail..." required></textarea>
+                    </div>
+
+                    <!-- NOUVELLE SECTION POUR LES IMAGES DE DESCRIPTION -->
+                    <div class="description-images-section">
+                        <h4 class="description-images-title">📸 Images de description (Maximum 3)</h4>
+                        <p class="description-images-hint">Ajoutez jusqu'à 3 images pour illustrer votre description produit</p>
+                        
+                        <div class="description-images-grid" id="descriptionImagesGrid">
+                            <div class="description-image-slot" data-slot="1">
+                                <div class="description-image-placeholder">
+                                    <div class="description-image-icon">🖼️</div>
+                                    <p style="font-size: 0.85rem;">Image 1</p>
+                                </div>
+                                <input type="file" accept="image/*" style="display: none;" class="desc-image-input">
+                            </div>
+                            
+                            <div class="description-image-slot" data-slot="2">
+                                <div class="description-image-placeholder">
+                                    <div class="description-image-icon">🖼️</div>
+                                    <p style="font-size: 0.85rem;">Image 2</p>
+                                </div>
+                                <input type="file" accept="image/*" style="display: none;" class="desc-image-input">
+                            </div>
+                            
+                            <div class="description-image-slot" data-slot="3">
+                                <div class="description-image-placeholder">
+                                    <div class="description-image-icon">🖼️</div>
+                                    <p style="font-size: 0.85rem;">Image 3</p>
+                                </div>
+                                <input type="file" accept="image/*" style="display: none;" class="desc-image-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Prix (FCFA) <span class="required">*</span></label>
+                            <input type="number" id="productPrice" class="form-input" placeholder="15000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Stock <span class="required">*</span></label>
+                            <input type="number" id="productStock" class="form-input" placeholder="50" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Catégorie <span class="required">*</span></label>
+                        <select id="productCategory" class="form-select" required>
+                            <option value="">Sélectionnez une catégorie</option>
+                            <option value="robes">Robes</option>
+                            <option value="hauts">Hauts</option>
+                            <option value="pantalons">Pantalons</option>
+                            <option value="accessoires">Accessoires</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h3 class="section-title">Statut de publication</h3>
+                    
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="statusPublished" name="productStatus" value="published" checked>
+                            <label for="statusPublished" class="radio-label">
+                                <span class="radio-custom"></span>
+                                <div>
+                                    <strong>Publié</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">Le produit sera visible sur votre boutique</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="radio-item">
+                            <input type="radio" id="statusDraft" name="productStatus" value="draft">
+                            <label for="statusDraft" class="radio-label">
+                                <span class="radio-custom"></span>
+                                <div>
+                                    <strong>Brouillon</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">Le produit ne sera pas visible publiquement</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary">Aperçu</button>
+                    <button type="submit" class="btn-primary">Enregistrer le produit</button>
+                </div>
+            </form>
+        </main>
+
+        <aside class="sidebar-right">
+            <section class="preview-section">
+                <h3 class="sidebar-title">Aperçu du produit</h3>
+                
+                <div class="product-preview-card">
+                    <div class="preview-image-container">
+                        <div style="color: var(--text-secondary); text-align: center;">
+                            <p style="font-size: 3rem;">🖼️</p>
+                            <p>Image principale</p>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-content">
+                        <h4 class="preview-title" id="previewTitle">Nom du produit</h4>
+                        <p class="preview-description" id="previewDescription">La description apparaîtra ici...</p>
+                        
+                        <!-- APERÇU DES IMAGES DE DESCRIPTION -->
+                        <div id="previewDescImages" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px;"></div>
+                        
+                        <p class="preview-price" id="previewPrice">0 FCFA</p>
+                    </div>
+                </div>
+            </section>
+        </aside>
+    </div>
+
+    <script>
+        let produits = [];
+        let descriptionImages = [null, null, null];
+        let mainImage = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🌸 Tableau de bord initialisé !');
+            initialiserEvenements();
+            chargerProduits();
+        });
+
+        function initialiserEvenements() {
+            const form = document.getElementById('productForm');
+            if (form) {
+                form.addEventListener('submit', gererSoumissionFormulaire);
+            }
+
+            // Événements pour les inputs
+            document.getElementById('productName')?.addEventListener('input', mettreAJourApercu);
+            document.getElementById('productDescription')?.addEventListener('input', mettreAJourApercu);
+            document.getElementById('productPrice')?.addEventListener('input', mettreAJourApercu);
+            document.getElementById('productStock')?.addEventListener('input', mettreAJourApercu);
+
+            // Gestion de l'image principale
+            const mainImageInput = document.getElementById('productMainImage');
+            if (mainImageInput) {
+                mainImageInput.addEventListener('change', gererImagePrincipale);
+            }
+
+            const removeMainImageBtn = document.getElementById('removeMainImage');
+            if (removeMainImageBtn) {
+                removeMainImageBtn.addEventListener('click', supprimerImagePrincipale);
+            }
+
+            // Initialiser les slots d'images de description
+            const slots = document.querySelectorAll('.description-image-slot');
+            slots.forEach((slot, index) => {
+                const input = slot.querySelector('.desc-image-input');
+                
+                // Clic sur le slot pour ouvrir le sélecteur de fichier
+                slot.addEventListener('click', (e) => {
+                    if (!e.target.closest('.description-image-remove')) {
+                        input.click();
+                    }
+                });
+
+                // Changement de fichier
+                input.addEventListener('change', (e) => {
+                    gererImageDescription(e, index);
+                });
+            });
+
+            console.log('🎯 Événements initialisés');
+        }
+
+        function gererImagePrincipale(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                afficherNotification('❌ Veuillez sélectionner une image', 'error');
+                return;
+            }
+
+            // Vérifier la taille (5MB max)
+            if (file.size > 5 * 1024 * 1024) {
+                afficherNotification('❌ L\'image ne doit pas dépasser 5MB', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                mainImage = event.target.result;
+                afficherImagePrincipale(event.target.result);
+                mettreAJourApercuPrincipal();
+                afficherNotification('✅ Image principale ajoutée', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function afficherImagePrincipale(imageUrl) {
+            const preview = document.getElementById('mainImagePreview');
+            const previewImg = document.getElementById('mainImagePreviewImg');
+            const uploadZone = document.querySelector('.upload-zone');
+
+            if (preview && previewImg) {
+                previewImg.src = imageUrl;
+                preview.style.display = 'block';
+                uploadZone.style.display = 'none';
+            }
+        }
+
+        function supprimerImagePrincipale() {
+            mainImage = null;
+            
+            const preview = document.getElementById('mainImagePreview');
+            const uploadZone = document.querySelector('.upload-zone');
+            const mainImageInput = document.getElementById('productMainImage');
+
+            if (preview) {
+                preview.style.display = 'none';
+            }
+            if (uploadZone) {
+                uploadZone.style.display = 'block';
+            }
+            if (mainImageInput) {
+                mainImageInput.value = '';
+            }
+
+            mettreAJourApercuPrincipal();
+            afficherNotification('🗑️ Image principale supprimée', 'info');
+        }
+
+        function mettreAJourApercuPrincipal() {
+            const previewContainer = document.querySelector('.preview-image-container');
+            if (!previewContainer) return;
+
+            if (mainImage) {
+                previewContainer.innerHTML = `
+                    <img src="${mainImage}" class="preview-image" alt="Aperçu produit" style="width: 100%; height: 100%; object-fit: cover;">
+                `;
+            } else {
+                previewContainer.innerHTML = `
+                    <div style="color: var(--text-secondary); text-align: center;">
+                        <p style="font-size: 3rem;">🖼️</p>
+                        <p>Image principale</p>
+                    </div>
+                `;
+            }
+        }
+
+        function gererImageDescription(e, slotIndex) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                afficherNotification('❌ Veuillez sélectionner une image', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                descriptionImages[slotIndex] = event.target.result;
+                afficherImageDansSlot(slotIndex, event.target.result);
+                mettreAJourApercuImages();
+                afficherNotification(`✅ Image ${slotIndex + 1} ajoutée`, 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function afficherImageDansSlot(slotIndex, imageUrl) {
+            const slot = document.querySelector(`.description-image-slot[data-slot="${slotIndex + 1}"]`);
+            if (!slot) return;
+
+            // Marquer le slot comme ayant une image
+            slot.classList.add('has-image');
+
+            // Vider le contenu actuel
+            slot.innerHTML = '';
+
+            // Ajouter l'image
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.className = 'description-image-preview';
+            img.alt = `Image de description ${slotIndex + 1}`;
+            slot.appendChild(img);
+
+            // Ajouter le bouton de suppression
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'description-image-remove';
+            removeBtn.innerHTML = '×';
+            removeBtn.type = 'button';
+            removeBtn.onclick = (e) => {
+                e.stopPropagation();
+                supprimerImageDescription(slotIndex);
+            };
+            slot.appendChild(removeBtn);
+
+            // Rajouter l'input (caché)
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.className = 'desc-image-input';
+            input.style.display = 'none';
+            input.addEventListener('change', (e) => gererImageDescription(e, slotIndex));
+            slot.appendChild(input);
+        }
+
+        function supprimerImageDescription(slotIndex) {
+            descriptionImages[slotIndex] = null;
+            
+            const slot = document.querySelector(`.description-image-slot[data-slot="${slotIndex + 1}"]`);
+            if (!slot) return;
+
+            slot.classList.remove('has-image');
+            slot.innerHTML = `
+                <div class="description-image-placeholder">
+                    <div class="description-image-icon">🖼️</div>
+                    <p style="font-size: 0.85rem;">Image ${slotIndex + 1}</p>
+                </div>
+                <input type="file" accept="image/*" style="display: none;" class="desc-image-input">
+            `;
+
+            // Réattacher l'événement
+            const input = slot.querySelector('.desc-image-input');
+            input.addEventListener('change', (e) => gererImageDescription(e, slotIndex));
+
+            mettreAJourApercuImages();
+            afficherNotification(`🗑️ Image ${slotIndex + 1} supprimée`, 'info');
+        }
+
+        function mettreAJourApercuImages() {
+            const container = document.getElementById('previewDescImages');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            const imagesNonNulles = descriptionImages.filter(img => img !== null);
+            
+            if (imagesNonNulles.length === 0) return;
+
+            imagesNonNulles.forEach((imageUrl, index) => {
+                const imgWrapper = document.createElement('div');
+                imgWrapper.style.cssText = `
+                    border-radius: 8px;
+                    overflow: hidden;
+                    aspect-ratio: 1;
+                    box-shadow: 0 2px 8px rgba(199, 125, 255, 0.2);
+                `;
+
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.style.cssText = `
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                `;
+                img.alt = `Description ${index + 1}`;
+
+                imgWrapper.appendChild(img);
+                container.appendChild(imgWrapper);
+            });
+        }
+
+        function gererSoumissionFormulaire(e) {
+            e.preventDefault();
+
+            const nom = document.getElementById('productName').value.trim();
+            const description = document.getElementById('productDescription').value.trim();
+            const prix = parseFloat(document.getElementById('productPrice').value);
+            const stock = parseInt(document.getElementById('productStock').value);
+            const categorie = document.getElementById('productCategory').value;
+            const statut = document.querySelector('input[name="productStatus"]:checked').value;
+
+            if (!nom || !description || !prix || !stock || !categorie) {
+                afficherNotification('❌ Veuillez remplir tous les champs obligatoires', 'error');
+                return;
+            }
+
+            if (!mainImage) {
+                afficherNotification('❌ Veuillez ajouter une image principale', 'error');
+                return;
+            }
+
+            const nouveauProduit = {
+                id: Date.now(),
+                nom: nom,
+                description: description,
+                prix: prix,
+                stock: stock,
+                categorie: categorie,
+                statut: statut,
+                mainImage: mainImage,
+                descriptionImages: [...descriptionImages],
+                dateCreation: new Date().toISOString()
+            };
+
+            produits.push(nouveauProduit);
+            sauvegarderProduits();
+            afficherNotification('✨ Produit ajouté avec succès !', 'success');
+            reinitialiserFormulaire();
+        }
+
+        function reinitialiserFormulaire() {
+            document.getElementById('productForm').reset();
+            descriptionImages = [null, null, null];
+            mainImage = null;
+
+            // Réinitialiser l'image principale
+            const preview = document.getElementById('mainImagePreview');
+            const uploadZone = document.querySelector('.upload-zone');
+            if (preview) preview.style.display = 'none';
+            if (uploadZone) uploadZone.style.display = 'block';
+
+            // Réinitialiser les slots d'images
+            const slots = document.querySelectorAll('.description-image-slot');
+            slots.forEach((slot, index) => {
+                slot.classList.remove('has-image');
+                slot.innerHTML = `
+                    <div class="description-image-placeholder">
+                        <div class="description-image-icon">🖼️</div>
+                        <p style="font-size: 0.85rem;">Image ${index + 1}</p>
+                    </div>
+                    <input type="file" accept="image/*" style="display: none;" class="desc-image-input">
+                `;
+                const input = slot.querySelector('.desc-image-input');
+                input.addEventListener('change', (e) => gererImageDescription(e, index));
+            });
+
+            mettreAJourApercu();
+            mettreAJourApercuImages();
+            mettreAJourApercuPrincipal();
+        }
+
+        function mettreAJourApercu() {
+            const nom = document.getElementById('productName').value || 'Nom du produit';
+            const description = document.getElementById('productDescription').value || 'La description apparaîtra ici...';
+            const prix = document.getElementById('productPrice').value || '0';
+
+            document.getElementById('previewTitle').textContent = nom;
+            document.getElementById('previewDescription').textContent = description;
+            document.getElementById('previewPrice').textContent = `${parseInt(prix).toLocaleString('fr-FR')} FCFA`;
+        }
+
+        function afficherNotification(message, type = 'info') {
+            let conteneur = document.getElementById('notification-container');
+
+            if (!conteneur) {
+                conteneur = document.createElement('div');
+                conteneur.id = 'notification-container';
+                conteneur.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    z-index: 10000;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                `;
+                document.body.appendChild(conteneur);
+            }
+
+            const couleurs = {
+                success: '#4CAF50',
+                error: '#f44336',
+                info: '#C77DFF',
+                warning: '#FF9800'
+            };
+
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                background: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                box-shadow: 0 8px 25px rgba(199, 125, 255, 0.2);
+                border-left: 4px solid ${couleurs[type]};
+                animation: slideIn 0.5s ease;
+                max-width: 350px;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 500;
+                color: #333;
+            `;
+            notification.textContent = message;
+
+            conteneur.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.5s ease';
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+
+        function sauvegarderProduits() {
+            localStorage.setItem('produits_ecommerce', JSON.stringify(produits));
+            console.log('💾 Produits sauvegardés');
+        }
+
+        function chargerProduits() {
+            const produitsStockes = localStorage.getItem('produits_ecommerce');
+            if (produitsStockes) {
+                produits = JSON.parse(produitsStockes);
+                console.log(`✅ ${produits.length} produit(s) chargé(s)`);
+            }
+        }
+
+        // Animation CSS pour les notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeOut {
+                to {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+            }
+
+            /* Adaptation mobile pour les images */
+            @media (max-width: 600px) {
+                .description-images-grid {
+                    grid-template-columns: 1fr !important;
+                }
+
+                .description-image-slot {
+                    aspect-ratio: 16/9 !important;
+                }
+
+                #previewDescImages {
+                    grid-template-columns: 1fr !important;
+                }
+
+                #mainImagePreviewImg {
+                    height: 200px !important;
+                }
+
+                .upload-zone {
+                    padding: 24px !important;
+                }
+
+                .upload-icon {
+                    font-size: 2rem !important;
+                }
+            }
+
+            @media (max-width: 400px) {
+                .description-images-section {
+                    padding: 12px;
+                }
+
+                .description-images-title {
+                    font-size: 0.9rem;
+                }
+
+                .description-images-hint {
+                    font-size: 0.8rem;
+                }
+
+                .description-image-icon {
+                    font-size: 1.5rem !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        console.log('%c🌸 Tableau de Bord E-commerce Féminin 🌸', 'color: #C77DFF; font-size: 20px; font-weight: bold;');
+        console.log('%cBienvenue ! Votre tableau de bord est prêt à l\'emploi.', 'color: #F3D1F4; font-size: 14px;');
+        console.log('%c✨ Nouvelle fonctionnalité : Images de description (max 3) ✨', 'color: #C77DFF; font-size: 14px; font-weight: bold;');
+    </script>
+</body>
+</html>

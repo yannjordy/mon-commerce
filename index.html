@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Ma Boutique Élégante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #C77DFF;
+            --secondary-color: #F3D1F4;
+            --accent-color: #B983FF;
+            --bg-general: #F8F7FB;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --white: #FFFFFF;
+            --gradient-purple-pink: linear-gradient(135deg, #C77DFF 0%, #F3D1F4 100%);
+            --shadow-light: 0 4px 15px rgba(199, 125, 255, 0.1);
+            --shadow-medium: 0 8px 25px rgba(199, 125, 255, 0.15);
+            --shadow-heavy: 0 12px 35px rgba(199, 125, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Particules animées en arrière-plan */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Container principal */
+        .login-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.8s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Logo et titre */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease 0.3s both;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: var(--gradient-purple-pink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: var(--shadow-heavy);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .brand-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-purple-pink);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .brand-tagline {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Onglets Connexion/Inscription */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: var(--bg-general);
+            padding: 5px;
+            border-radius: 15px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            border: none;
+            background: transparent;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .tab.active {
+            background: var(--gradient-purple-pink);
+            color: white;
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Formulaires */
+        .form-container {
+            position: relative;
+        }
+
+        .form {
+            display: none;
+            animation: fadeInForm 0.5s ease;
+        }
+
+        .form.active {
+            display: block;
+        }
+
+        @keyframes fadeInForm {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 45px 15px 15px;
+            border: 2px solid rgba(199, 125, 255, 0.2);
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            color: var(--text-primary);
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(199, 125, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .input-icon:hover {
+            color: var(--primary-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Indicateur de force du mot de passe */
+        .password-strength {
+            margin-top: 8px;
+            display: none;
+        }
+
+        .password-strength.active {
+            display: block;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .strength-fill.weak {
+            width: 33%;
+            background: #f44336;
+        }
+
+        .strength-fill.medium {
+            width: 66%;
+            background: #FF9800;
+        }
+
+        .strength-fill.strong {
+            width: 100%;
+            background: #4CAF50;
+        }
+
+        .strength-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Case à cocher */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        /* Bouton de soumission */
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-purple-pink);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-submit:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .btn-submit.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin: -10px 0 0 -10px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Lien "Mot de passe oublié" */
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        /* Messages d'erreur/succès */
+        .message {
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            animation: slideDown 0.3s ease;
+            display: none;
+        }
+
+        .message.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.error {
+            background: rgba(244, 67, 54, 0.1);
+            border-left: 4px solid #f44336;
+            color: #f44336;
+        }
+
+        .message.success {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .login-card {
+                padding: 40px 25px;
+                border-radius: 20px;
+            }
+
+            .brand-name {
+                font-size: 1.5rem;
+            }
+
+            .logo {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+        }
+
+        /* Animation de succès */
+        .success-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(199, 125, 255, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-animation.active {
+            display: flex;
+        }
+
+        .success-content {
+            text-align: center;
+            color: white;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease 0.3s both;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particules d'arrière-plan -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Container de connexion -->
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Logo et titre -->
+            <div class="logo-section">
+                <div class="logo">👗</div>
+                <h1 class="brand-name">Ma Boutique Élégante</h1>
+                <p class="brand-tagline">Élégance et style à votre portée</p>
+            </div>
+
+            <!-- Message de feedback -->
+            <div class="message" id="message"></div>
+
+            <!-- Onglets -->
+            <div class="tabs">
+                <button class="tab active" data-tab="login">Connexion</button>
+                <button class="tab" data-tab="signup">Inscription</button>
+            </div>
+
+            <!-- Formulaire de connexion -->
+            <form class="form active" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Nom d'utilisateur</label>
+                    <div class="input-wrapper">
+                        <input type="text" class="form-input" id="loginUsername" placeholder="Entrez votre nom d'utilisateur" required>
+                        <span class="input-icon">👤</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mot de passe</label>
+                    <div class="input-wrapper">
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Entrez votre mot de passe" required>
+                        <span class="input-icon" onclick="togglePassword('loginPassword', this)">👁️</span>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Se souvenir de moi</label>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <span>Se connecter</span>
+                </button>
+
+                <div class="forgot-password">
+                    <a href="#" onclick="afficherMessage('Fonctionnalité bientôt disponible 🔜', 'success'); return false;">Mot de passe oublié ?</a>
+                </div>
+            </form>
+
+            <!-- Formulaire d'inscription -->
+            <form class="form" id="signupForm">
+                <div class="form-group">
+                    <label class="form-label">Nom d'utilisateur</label>
+                    <div class="input-wrapper">
+                        <input type="text" class="form-input" id="signupUsername" placeholder="Choisissez un nom d'utilisateur" required minlength="3">
+                        <span class="input-icon">👤</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <input type="email" class="form-input" id="signupEmail" placeholder="votre@email.com" required>
+                        <span class="input-icon">📧</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mot de passe</label>
+                    <div class="input-wrapper">
+                        <input type="password" class="form-input" id="signupPassword" placeholder="Créez un mot de passe fort" required minlength="6">
+                        <span class="input-icon" onclick="togglePassword('signupPassword', this)">👁️</span>
+                    </div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <span class="strength-text" id="strengthText"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Confirmer le mot de passe</label>
+                    <div class="input-wrapper">
+                        <input type="password" class="form-input" id="signupPasswordConfirm" placeholder="Confirmez votre mot de passe" required>
+                        <span class="input-icon" onclick="togglePassword('signupPasswordConfirm', this)">👁️</span>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="acceptTerms" required>
+                    <label for="acceptTerms">J'accepte les conditions d'utilisation</label>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <span>Créer mon compte</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Animation de succès -->
+    <div class="success-animation" id="successAnimation">
+        <div class="success-content">
+            <div class="success-icon">✨</div>
+            <div class="success-text">Connexion réussie !</div>
+            <nav class="main-navigation">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="tableau.html" class="nav-link">Tableau de bord</a>
+                        </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script>
+        // Générer les particules
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 5 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // Gestion des onglets
+        const tabs = document.querySelectorAll('.tab');
+        const forms = document.querySelectorAll('.form');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.dataset.tab;
+                
+                // Retirer classe active
+                tabs.forEach(t => t.classList.remove('active'));
+                forms.forEach(f => f.classList.remove('active'));
+                
+                // Ajouter classe active
+                tab.classList.add('active');
+                document.getElementById(targetTab === 'login' ? 'loginForm' : 'signupForm').classList.add('active');
+                
+                // Masquer message
+                document.getElementById('message').classList.remove('active');
+            });
+        });
+
+        // Toggle mot de passe
+        function togglePassword(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                icon.textContent = '👁️';
+            }
+        }
+
+        // Indicateur de force du mot de passe
+        const signupPassword = document.getElementById('signupPassword');
+        const strengthIndicator = document.getElementById('passwordStrength');
+        const strengthFill = document.getElementById('strengthFill');
+        const strengthText = document.getElementById('strengthText');
+
+        signupPassword.addEventListener('input', () => {
+            const password = signupPassword.value;
+            
+            if (password.length === 0) {
+                strengthIndicator.classList.remove('active');
+                return;
+            }
+            
+            strengthIndicator.classList.add('active');
+            
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^a-zA-Z\d]/.test(password)) strength++;
+            
+            strengthFill.className = 'strength-fill';
+            
+            if (strength <= 2) {
+                strengthFill.classList.add('weak');
+                strengthText.textContent = '❌ Faible';
+                strengthText.style.color = '#f44336';
+            } else if (strength <= 4) {
+                strengthFill.classList.add('medium');
+                strengthText.textContent = '⚠️ Moyen';
+                strengthText.style.color = '#FF9800';
+            } else {
+                strengthFill.classList.add('strong');
+                strengthText.textContent = '✅ Fort';
+                strengthText.style.color = '#4CAF50';
+            }
+        });
+
+        // Afficher message
+        function afficherMessage(texte, type) {
+            const message = document.getElementById('message');
+            message.textContent = texte;
+            message.className = `message ${type} active`;
+            
+            setTimeout(() => {
+                message.classList.remove('active');
+            }, 4000);
+        }
+
+        // Formulaire de connexion
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            // Récupérer les utilisateurs enregistrés
+            const users = JSON.parse(localStorage.getItem('boutique_users') || '[]');
+            
+            // Vérifier si l'utilisateur existe
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                // Connexion réussie
+                const btn = e.target.querySelector('.btn-submit');
+                btn.classList.add('loading');
+                btn.querySelector('span').textContent = 'Connexion...';
+                
+                setTimeout(() => {
+                    // Sauvegarder la session
+                    localStorage.setItem('boutique_session', JSON.stringify({
+                        username: user.username,
+                        email: user.email,
+                        loginTime: new Date().toISOString()
+                    }));
+                    
+                    // Afficher l'animation de succès
+                    document.getElementById('successAnimation').classList.add('active');
+                    
+                    // Rediriger vers le tableau de bord
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                }, 1000);
+            } else {
+                afficherMessage('❌ Nom d\'utilisateur ou mot de passe incorrect', 'error');
+            }
+        });
+
+        // Formulaire d'inscription
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('signupUsername').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+            const acceptTerms = document.getElementById('acceptTerms').checked;
+            
+            // Validations
+            if (username.length < 3) {
+                afficherMessage('❌ Le nom d\'utilisateur doit contenir au moins 3 caractères', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                afficherMessage('❌ Le mot de passe doit contenir au moins 6 caractères', 'error');
+                return;
+            }
+            
+            if (password !== passwordConfirm) {
+                afficherMessage('❌ Les mots de passe ne correspondent pas', 'error');
+                return;
+            }
+            
+            if (!acceptTerms) {
+                afficherMessage('⚠️ Vous devez accepter les conditions d\'utilisation', 'error');
+                return;
+            }
+            
+            // Récupérer les utilisateurs existants
+            const users = JSON.parse(localStorage.getItem('boutique_users') || '[]');
+            
+            // Vérifier si l'utilisateur existe déjà
+            if (users.some(u => u.username === username)) {
+                afficherMessage('❌ Ce nom d\'utilisateur existe déjà', 'error');
+                return;
+            }
+            
+            if (users.some(u => u.email === email)) {
+                afficherMessage('❌ Cet email est déjà utilisé', 'error');
+                return;
+            }
+            
+            // Créer le nouvel utilisateur
+            const newUser = {
+                username,
+                email,
+                password,
+                createdAt: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('boutique_users', JSON.stringify(users));
+            
+            const btn = e.target.querySelector('.btn-submit');
+            btn.classList.add('loading');
+            btn.querySelector('span').textContent = 'Création du compte...';
+            
+            setTimeout(() => {
+                afficherMessage('✅ Compte créé avec succès ! Vous pouvez vous connecter', 'success');
+                
+                // Réinitialiser le formulaire
+                e.target.reset();
+                btn.classList.remove('loading');
+                btn.querySelector('span').textContent = 'Créer mon compte';
+                
+                // Basculer vers l'onglet connexion
+                setTimeout(() => {
+                    document.querySelector('.tab[data-tab="login"]').click();
+                    document.getElementById('loginUsername').value = username;
+                }, 2000);
+            }, 1000);
+        });
+
+        // Vérifier si l'utilisateur est déjà connecté
+        const session = localStorage.getItem('boutique_session');
+        if (session) {
+            const sessionData = JSON.parse(session);
+            const loginTime = new Date(sessionData.loginTime);
+            const now = new Date();
+            const hoursSinceLogin = (now - loginTime) / (1000 * 60 * 60);
+            
+            // Si la session a moins de 24h, rediriger directement
+            if (hoursSinceLogin < 24) {
+                document.getElementById('successAnimation').classList.add('active');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            }
+        }
+
+        console.log('%c👗 Ma Boutique Élégante', 'color: #C77DFF; font-size: 24px; font-weight: bold;');
+        console.log('%cPage de connexion animée prête !', 'color: #F3D1F4; font-size: 14px;');
+    </script>
+</body>
+</html>

@@ -1,0 +1,2717 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Boutique Élégante - Shopping en ligne</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #C77DFF;
+            --secondary-color: #F3D1F4;
+            --accent-color: #B983FF;
+            --bg-general: #F8F7FB;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --white: #FFFFFF;
+            --gradient-purple-pink: linear-gradient(135deg, #C77DFF 0%, #F3D1F4 100%);
+            --shadow-light: 0 4px 15px rgba(199, 125, 255, 0.1);
+            --shadow-medium: 0 8px 25px rgba(199, 125, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-general);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-light);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--gradient-purple-pink);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-purple-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .cart-btn {
+            position: relative;
+            background: var(--gradient-purple-pink);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+
+        .cart-btn:active {
+            transform: scale(0.95);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #f44336;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+        /* Hero Banner */
+        .hero {
+            margin-top: 72px;
+            background: var(--gradient-purple-pink);
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        /* Search & Filters */
+        .filters-container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(199, 125, 255, 0.2);
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(199, 125, 255, 0.15);
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-chips::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chip {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid rgba(199, 125, 255, 0.2);
+            border-radius: 25px;
+            white-space: nowrap;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .chip.active {
+            background: var(--gradient-purple-pink);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Products Grid */
+        .products-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--bg-general);
+        }
+
+        .product-info {
+            padding: 12px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .product-stock {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background: var(--gradient-purple-pink);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart-btn:active {
+            transform: scale(0.95);
+        }
+
+        .add-to-cart-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Modal Produit */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            margin: 20px 0;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 20px;
+            border-bottom: 2px solid var(--bg-general);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .modal-close {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .modal-images-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-desc-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .qty-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* Panier Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            overflow-y: auto;
+        }
+
+        .cart-modal.active {
+            display: block;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .cart-header {
+            position: sticky;
+            top: 0;
+            background: var(--gradient-purple-pink);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .cart-items {
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg-general);
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .mini-qty-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cart-remove {
+            color: #f44336;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .cart-summary {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 20px;
+            border-top: 2px solid var(--bg-general);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: var(--gradient-purple-pink);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-cart-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 15px rgba(199, 125, 255, 0.15);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-item-icon {
+            font-size: 1.3rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .payment-form-container {
+            padding: 20px 0;
+        }
+
+        .payment-header-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .payment-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .payment-header-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .payment-header-info p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .payment-amount-display {
+            background: var(--gradient-purple-pink);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .payment-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .payment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .payment-security-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 12px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .payment-security-info strong {
+            color: #4CAF50;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .payment-security-info p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .payment-instructions {
+            margin: 16px 0;
+        }
+
+        .api-integration-zone {
+            background: rgba(33, 150, 243, 0.05);
+            border: 2px dashed rgba(33, 150, 243, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .payment-submit-btn {
+            width: 100%;
+            background: var(--gradient-purple-pink);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .payment-submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .payment-submit-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 600px) {
+            .payment-amount {
+                font-size: 1.4rem;
+            }
+
+            .payment-header-info h3 {
+                font-size: 1.3rem;
+            }
+
+            .payment-icon {
+                font-size: 3rem;
+            }
+        }
+
+        /* Modal Messagerie */
+        .messaging-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            overflow-y: auto;
+        }
+
+        .messaging-modal.active {
+            display: block;
+            animation: slideInRight 0.3s ease;
+        }
+
+        .messaging-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .messaging-header {
+            background: var(--gradient-purple-pink);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .messaging-header h2 {
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .messaging-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .contact-choice {
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            overflow-y: auto;
+        }
+
+        .choice-title {
+            text-align: center;
+        }
+
+        .choice-icon {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+        }
+
+        .choice-title h3 {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .choice-title p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .choice-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .choice-btn {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            border: 2px solid rgba(199, 125, 255, 0.2);
+            border-radius: 16px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .choice-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-color);
+        }
+
+        .whatsapp-btn {
+            border-color: rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-btn:hover {
+            border-color: #25D366;
+            background: rgba(37, 211, 102, 0.05);
+        }
+
+        .whatsapp-btn .btn-icon {
+            font-size: 2.5rem;
+        }
+
+        .chat-btn .btn-icon {
+            font-size: 2.5rem;
+        }
+
+        .btn-content {
+            flex: 1;
+        }
+
+        .btn-content h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .btn-content p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .btn-arrow {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .contact-info {
+            background: var(--bg-general);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .contact-info p {
+            margin: 8px 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .contact-info strong {
+            color: var(--primary-color);
+        }
+
+        .chat-interface {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .back-btn {
+            padding: 12px 20px;
+            border: none;
+            background: rgba(199, 125, 255, 0.1);
+            color: var(--primary-color);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(199, 125, 255, 0.2);
+        }
+
+        .chat-messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--bg-general);
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .welcome-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .welcome-message h3 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .client-message-bubble {
+            background: var(--gradient-purple-pink);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 16px 16px 4px 16px;
+            margin-bottom: 12px;
+            max-width: 80%;
+            margin-left: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        .admin-message-bubble {
+            background: white;
+            color: var(--text-primary);
+            padding: 12px 16px;
+            border-radius: 16px 16px 16px 4px;
+            margin-bottom: 12px;
+            max-width: 80%;
+            margin-right: auto;
+            box-shadow: var(--shadow-light);
+            animation: slideUp 0.3s ease;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .messaging-input-area {
+            padding: 20px;
+            border-top: 2px solid var(--bg-general);
+            background: white;
+        }
+
+        .client-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(199, 125, 255, 0.2);
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .client-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(199, 125, 255, 0.15);
+        }
+
+        .client-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(199, 125, 255, 0.2);
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            resize: none;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .client-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(199, 125, 255, 0.15);
+        }
+
+        .send-message-btn {
+            width: 100%;
+            background: var(--gradient-purple-pink);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-message-btn:active {
+            transform: scale(0.98);
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 6px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 16px 16px 16px 4px;
+            width: fit-content;
+            box-shadow: var(--shadow-light);
+            margin-bottom: 12px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-status {
+            text-align: center;
+            padding: 8px;
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            background: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(199, 125, 255, 0.3);
+            border-left: 4px solid #4CAF50;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .cart-modal,
+            .messaging-modal {
+                max-width: 100%;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon" id="logoIcon">
+                    <span id="logoEmoji">👗</span>
+                    <img id="logoImage" style="display: none;" alt="Logo">
+                </div>
+                <span id="shopName">Ma Boutique</span>
+            </div>
+            <div class="header-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    🛒 Panier
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero" id="heroBanner">
+        <h1 class="hero-title">✨ Collection Élégante</h1>
+        <p class="hero-subtitle" id="heroSubtitle">Découvrez nos produits tendance</p>
+    </section>
+
+    <!-- Filters -->
+    <div class="filters-container">
+        <input type="text" class="search-box" id="searchBox" placeholder="🔍 Rechercher un produit...">
+        
+        <div class="filter-chips">
+            <div class="chip active" data-category="" onclick="filterByCategory('')">Tous</div>
+            <div class="chip" data-category="robes" onclick="filterByCategory('robes')">Robes</div>
+            <div class="chip" data-category="hauts" onclick="filterByCategory('hauts')">Hauts</div>
+            <div class="chip" data-category="pantalons" onclick="filterByCategory('pantalons')">Pantalons</div>
+            <div class="chip" data-category="accessoires" onclick="filterByCategory('accessoires')">Accessoires</div>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <h2 class="section-title" id="sectionTitle">Tous nos produits</h2>
+        <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <!-- Modal Produit -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Détails</h2>
+                <button class="modal-close" onclick="closeProductModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Panier Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h2>🛒 Mon Panier</h2>
+            <button class="modal-close" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-summary" id="cartSummary"></div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active">
+            <span class="nav-item-icon">🏠</span>
+            <span>Accueil</span>
+        </div>
+        <div class="nav-item" onclick="document.getElementById('searchBox').focus()">
+            <span class="nav-item-icon">🔍</span>
+            <span>Recherche</span>
+        </div>
+        <div class="nav-item" onclick="toggleCart()">
+            <span class="nav-item-icon">🛒</span>
+            <span>Panier</span>
+        </div>
+        <div class="nav-item" onclick="toggleMessaging()">
+            <span class="nav-item-icon">💬</span>
+            <span>Message</span>
+        </div>
+        <div class="nav-item">
+            <span class="nav-item-icon">👤</span>
+            <span>Compte</span>
+        </div>
+    </nav>
+
+    <!-- Modal Messagerie -->
+    <div class="messaging-modal" id="messagingModal">
+        <div class="messaging-content">
+            <div class="messaging-header">
+                <h2>💬 Nous contacter</h2>
+                <button class="modal-close" onclick="toggleMessaging()">×</button>
+            </div>
+            <div class="messaging-body">
+                <div class="contact-choice" id="contactChoice">
+                    <div class="choice-title">
+                        <div class="choice-icon">🗨️</div>
+                        <h3>Choisissez votre méthode de contact</h3>
+                        <p>Comment préférez-vous nous contacter ?</p>
+                    </div>
+                    
+                    <div class="choice-buttons">
+                        <button class="choice-btn whatsapp-btn" onclick="contacterWhatsApp()">
+                            <div class="btn-icon">📱</div>
+                            <div class="btn-content">
+                                <h4>WhatsApp</h4>
+                                <p>Réponse rapide et directe</p>
+                            </div>
+                            <div class="btn-arrow">→</div>
+                        </button>
+                        
+                        <button class="choice-btn chat-btn" onclick="ouvrirChatInterne()">
+                            <div class="btn-icon">💬</div>
+                            <div class="btn-content">
+                                <h4>Chat en ligne</h4>
+                                <p>Messagerie intégrée</p>
+                            </div>
+                            <div class="btn-arrow">→</div>
+                        </button>
+                    </div>
+
+                    <div class="contact-info">
+                        <p id="contactPhone">📞 Appelez-nous : <strong>+237 6XX XXX XXX</strong></p>
+                        <p id="contactEmail">📧 Email : <strong>contact@boutique.com</strong></p>
+                        <p>⏰ Disponibles : Lun-Sam, 9h-19h</p>
+                    </div>
+                </div>
+
+                <div class="chat-interface" id="chatInterface" style="display: none;">
+                    <button class="back-btn" onclick="retourChoixContact()">
+                        ← Retour
+                    </button>
+                    <div class="chat-messages-area" id="chatMessagesArea">
+                        <div class="welcome-message">
+                            <div class="welcome-icon">👋</div>
+                            <h3>Bienvenue !</h3>
+                            <p>Posez-nous vos questions, nous sommes là pour vous aider</p>
+                        </div>
+                    </div>
+                    <div class="messaging-input-area">
+                        <input type="text" id="clientName" placeholder="Votre nom" class="client-input">
+                        <textarea id="clientMessage" placeholder="Votre message..." class="client-textarea" rows="3"></textarea>
+                        <button class="send-message-btn" onclick="envoyerMessageClient()">
+                            📤 Envoyer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let produits = [];
+        let panier = [];
+        let filteredProduits = [];
+        let currentCategory = '';
+        let parametres = {};
+        const whatsappNumber = '+237655258449';
+
+        // Charger les paramètres de la boutique
+        function chargerParametres() {
+            const parametresSauvegardes = localStorage.getItem('parametres_boutique');
+            if (parametresSauvegardes) {
+                parametres = JSON.parse(parametresSauvegardes);
+                appliquerParametres();
+            } else {
+                // Paramètres par défaut
+                parametres = {
+                    general: {
+                        nom: 'Ma Boutique Élégante',
+                        description: 'Une boutique de vêtements féminins élégants et tendance',
+                        email: 'contact@boutique.com',
+                        telephone: '+237 6 XX XX XX XX',
+                        adresse: 'Douala, Cameroun'
+                    },
+                    apparence: {
+                        couleurPrimaire: '#C77DFF',
+                        couleurSecondaire: '#F3D1F4',
+                        logo: ''
+                    }
+                };
+            }
+        }
+
+        // Appliquer les paramètres à l'interface
+        function appliquerParametres() {
+            // Nom de la boutique
+            const shopNameEl = document.getElementById('shopName');
+            if (shopNameEl && parametres.general?.nom) {
+                shopNameEl.textContent = parametres.general.nom;
+                document.title = `${parametres.general.nom} - Shopping en ligne`;
+            }
+
+            // Description dans le hero
+            const heroSubtitle = document.getElementById('heroSubtitle');
+            if (heroSubtitle && parametres.general?.description) {
+                heroSubtitle.textContent = parametres.general.description;
+            }
+
+            // Logo personnalisé
+            const logoImage = document.getElementById('logoImage');
+            const logoEmoji = document.getElementById('logoEmoji');
+            const logoIcon = document.getElementById('logoIcon');
+            
+            if (parametres.apparence?.logo && parametres.apparence.logo.trim() !== '') {
+                logoImage.src = parametres.apparence.logo;
+                logoImage.style.display = 'block';
+                logoEmoji.style.display = 'none';
+                logoIcon.style.background = 'transparent';
+            } else {
+                logoImage.style.display = 'none';
+                logoEmoji.style.display = 'block';
+                logoIcon.style.background = 'var(--gradient-purple-pink)';
+            }
+
+            // Couleurs
+            if (parametres.apparence?.couleurPrimaire) {
+                document.documentElement.style.setProperty('--primary-color', parametres.apparence.couleurPrimaire);
+                
+                // Créer le dégradé avec les couleurs personnalisées
+                const couleurPrimaire = parametres.apparence.couleurPrimaire;
+                const couleurSecondaire = parametres.apparence.couleurSecondaire || lightenColor(couleurPrimaire, 30);
+                const gradient = `linear-gradient(135deg, ${couleurPrimaire} 0%, ${couleurSecondaire} 100%)`;
+                document.documentElement.style.setProperty('--gradient-purple-pink', gradient);
+            }
+
+            if (parametres.apparence?.couleurSecondaire) {
+                document.documentElement.style.setProperty('--secondary-color', parametres.apparence.couleurSecondaire);
+            }
+
+            // Informations de contact
+            const contactPhone = document.getElementById('contactPhone');
+            if (contactPhone && parametres.general?.telephone) {
+                contactPhone.innerHTML = `📞 Appelez-nous : <strong>${parametres.general.telephone}</strong>`;
+            }
+
+            const contactEmail = document.getElementById('contactEmail');
+            if (contactEmail && parametres.general?.email) {
+                contactEmail.innerHTML = `📧 Email : <strong>${parametres.general.email}</strong>`;
+            }
+        }
+
+        // Fonction pour éclaircir une couleur
+        function lightenColor(color, percent) {
+            const num = parseInt(color.replace("#", ""), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+                (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+                (B < 255 ? B < 1 ? 0 : B : 255))
+                .toString(16).slice(1);
+        }
+
+        // Charger les produits
+        function chargerProduits() {
+            const produitsStockes = localStorage.getItem('produits_ecommerce');
+            if (produitsStockes) {
+                produits = JSON.parse(produitsStockes).filter(p => p.statut === 'published' && p.stock > 0);
+                filteredProduits = [...produits];
+            }
+        }
+
+        // Charger le panier
+        function chargerPanier() {
+            const panierStocke = localStorage.getItem('panier_client');
+            if (panierStocke) {
+                panier = JSON.parse(panierStocke);
+            }
+            updateCartBadge();
+        }
+
+        // Sauvegarder le panier
+        function sauvegarderPanier() {
+            localStorage.setItem('panier_client', JSON.stringify(panier));
+            updateCartBadge();
+        }
+
+        // Afficher les produits
+        function afficherProduits() {
+            const grid = document.getElementById('productsGrid');
+            
+            if (filteredProduits.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-icon">🛍️</div>
+                        <h3>Aucun produit trouvé</h3>
+                        <p>Modifiez vos critères de recherche</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const devise = parametres.paiement?.devise || 'FCFA';
+
+            grid.innerHTML = filteredProduits.map(produit => `
+                <div class="product-card" onclick="viewProduct(${produit.id})">
+                    <img src="${produit.mainImage || 'https://via.placeholder.com/200'}" 
+                         alt="${produit.nom}" 
+                         class="product-image"
+                         onerror="this.src='https://via.placeholder.com/200?text=Image'">
+                    <div class="product-info">
+                        <div class="product-name">${produit.nom}</div>
+                        <div class="product-price">${produit.prix.toLocaleString('fr-FR')} ${devise}</div>
+                        <div class="product-stock">Stock: ${produit.stock}</div>
+                        <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${produit.id})">
+                            Ajouter au panier
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Voir détails produit
+        function viewProduct(id) {
+            const produit = produits.find(p => p.id === id);
+            if (!produit) return;
+
+            const modal = document.getElementById('productModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const devise = parametres.paiement?.devise || 'FCFA';
+
+            modalTitle.textContent = produit.nom;
+
+            const descImagesHtml = produit.descriptionImages && produit.descriptionImages.filter(img => img).length > 0
+                ? `<div class="modal-images-grid">
+                    ${produit.descriptionImages.filter(img => img).map(img => 
+                        `<img src="${img}" class="modal-desc-image" alt="Description" onerror="this.style.display='none'">`
+                    ).join('')}
+                   </div>`
+                : '';
+
+            modalBody.innerHTML = `
+                <img src="${produit.mainImage}" class="modal-image" alt="${produit.nom}" onerror="this.src='https://via.placeholder.com/350?text=Image'">
+                ${descImagesHtml}
+                <h3 style="margin-bottom: 12px;">Description</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 20px; line-height: 1.8;">
+                    ${produit.description}
+                </p>
+                <div style="background: var(--bg-general); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color); text-align: center;">
+                        ${produit.prix.toLocaleString('fr-FR')} ${devise}
+                    </div>
+                </div>
+                <div class="quantity-selector">
+                    <button class="qty-btn" onclick="changeQty(-1, ${produit.id})">−</button>
+                    <div class="qty-value" id="qty-${produit.id}">1</div>
+                    <button class="qty-btn" onclick="changeQty(1, ${produit.id})">+</button>
+                </div>
+                <button class="add-to-cart-btn" style="width: 100%; padding: 16px; font-size: 1.1rem;" 
+                        onclick="addToCartFromModal(${produit.id})">
+                    🛒 Ajouter au panier
+                </button>
+            `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeQty(delta, productId) {
+            const qtyEl = document.getElementById(`qty-${productId}`);
+            let qty = parseInt(qtyEl.textContent);
+            qty = Math.max(1, Math.min(qty + delta, 10));
+            qtyEl.textContent = qty;
+        }
+
+        function addToCartFromModal(id) {
+            const qty = parseInt(document.getElementById(`qty-${id}`).textContent);
+            addToCart(id, qty);
+            closeProductModal();
+        }
+
+        // Ajouter au panier
+        function addToCart(id, quantity = 1) {
+            const produit = produits.find(p => p.id === id);
+            if (!produit) return;
+
+            const existingItem = panier.find(item => item.id === id);
+
+            if (existingItem) {
+                existingItem.quantite = Math.min(existingItem.quantite + quantity, produit.stock);
+            } else {
+                panier.push({
+                    id: produit.id,
+                    nom: produit.nom,
+                    prix: produit.prix,
+                    image: produit.mainImage,
+                    quantite: quantity,
+                    stockMax: produit.stock
+                });
+            }
+
+            sauvegarderPanier();
+            afficherNotification('✅ Ajouté au panier !');
+            afficherPanier();
+        }
+
+        // Afficher le panier
+        function afficherPanier() {
+            const cartItems = document.getElementById('cartItems');
+            const cartSummary = document.getElementById('cartSummary');
+            const devise = parametres.paiement?.devise || 'FCFA';
+
+            if (panier.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h3>Votre panier est vide</h3>
+                        <p>Ajoutez des produits pour commencer</p>
+                    </div>
+                `;
+                cartSummary.innerHTML = '';
+                return;
+            }
+
+            cartItems.innerHTML = panier.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" class="cart-item-image" alt="${item.nom}" onerror="this.src='https://via.placeholder.com/80?text=Img'">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.nom}</div>
+                        <div class="cart-item-price">${item.prix.toLocaleString('fr-FR')} ${devise}</div>
+                        <div class="cart-item-qty">
+                            <button class="mini-qty-btn" onclick="updateCartQty(${item.id}, -1)">−</button>
+                            <span>${item.quantite}</span>
+                            <button class="mini-qty-btn" onclick="updateCartQty(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="cart-remove" onclick="removeFromCart(${item.id})">🗑️</button>
+                </div>
+            `).join('');
+
+            const total = panier.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
+
+            cartSummary.innerHTML = `
+                <div class="cart-total">
+                    <span>Total</span>
+                    <span>${total.toLocaleString('fr-FR')} ${devise}</span>
+                </div>
+                <button class="checkout-btn" onclick="commander()">
+                    Commander maintenant
+                </button>
+            `;
+        }
+
+        function updateCartQty(id, delta) {
+            const item = panier.find(i => i.id === id);
+            if (!item) return;
+
+            item.quantite = Math.max(1, Math.min(item.quantite + delta, item.stockMax));
+            sauvegarderPanier();
+            afficherPanier();
+        }
+
+        function removeFromCart(id) {
+            panier = panier.filter(item => item.id !== id);
+            sauvegarderPanier();
+            afficherPanier();
+        }
+
+        function toggleCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.classList.toggle('active');
+            afficherPanier();
+        }
+
+        function updateCartBadge() {
+            const totalItems = panier.reduce((sum, item) => sum + item.quantite, 0);
+            document.getElementById('cartBadge').textContent = totalItems;
+        }
+
+        // Filtrer par catégorie
+        function filterByCategory(category) {
+            currentCategory = category;
+            
+            document.querySelectorAll('.chip').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.dataset.category === category) {
+                    chip.classList.add('active');
+                }
+            });
+
+            applyFilters();
+        }
+
+        // Appliquer les filtres
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+
+            filteredProduits = produits.filter(produit => {
+                const matchCategory = !currentCategory || produit.categorie === currentCategory;
+                const matchSearch = produit.nom.toLowerCase().includes(searchTerm) || 
+                                   produit.description.toLowerCase().includes(searchTerm);
+                return matchCategory && matchSearch;
+            });
+
+            const categoryNames = {
+                '': 'Tous nos produits',
+                'robes': 'Robes',
+                'hauts': 'Hauts',
+                'pantalons': 'Pantalons',
+                'accessoires': 'Accessoires'
+            };
+
+            document.getElementById('sectionTitle').textContent = 
+                searchTerm ? `Résultats pour "${searchTerm}"` : categoryNames[currentCategory];
+
+            afficherProduits();
+        }
+
+        // Commander
+        function commander() {
+            if (panier.length === 0) {
+                afficherNotification('⚠️ Votre panier est vide', 'warning');
+                return;
+            }
+
+            afficherFormulaireClient();
+        }
+
+        function afficherFormulaireClient() {
+            const modal = document.createElement('div');
+            modal.id = 'checkoutModal';
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+
+            const clientSauvegarde = localStorage.getItem('client_info');
+            let clientInfo = clientSauvegarde ? JSON.parse(clientSauvegarde) : {};
+            const devise = parametres.paiement?.devise || 'FCFA';
+
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modalTitle">📋 Vos informations</h2>
+                        <button class="modal-close" onclick="fermerFormulaireClient()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="color: var(--text-secondary); margin-bottom: 24px;">
+                            Veuillez remplir vos informations pour finaliser votre commande
+                        </p>
+
+                        <form id="clientForm" style="display: flex; flex-direction: column; gap: 16px;">
+                            <div>
+                                <label style="display: block; font-weight: 500; margin-bottom: 8px;">
+                                    Nom complet <span style="color: #f44336;">*</span>
+                                </label>
+                                <input type="text" id="clientFullName" 
+                                       value="${clientInfo.nom || ''}"
+                                       placeholder="Ex: Marie Dupont" 
+                                       required
+                                       style="width: 100%; padding: 12px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif;">
+                            </div>
+
+                            <div>
+                                <label style="display: block; font-weight: 500; margin-bottom: 8px;">
+                                    Email <span style="color: #f44336;">*</span>
+                                </label>
+                                <input type="email" id="clientEmail" 
+                                       value="${clientInfo.email || ''}"
+                                       placeholder="votre.email@example.com" 
+                                       required
+                                       style="width: 100%; padding: 12px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif;">
+                            </div>
+
+                            <div>
+                                <label style="display: block; font-weight: 500; margin-bottom: 8px;">
+                                    Téléphone <span style="color: #f44336;">*</span>
+                                </label>
+                                <input type="tel" id="clientPhone" 
+                                       value="${clientInfo.telephone || ''}"
+                                       placeholder="+237 6XX XXX XXX" 
+                                       required
+                                       style="width: 100%; padding: 12px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif;">
+                            </div>
+
+                            <div>
+                                <label style="display: block; font-weight: 500; margin-bottom: 8px;">
+                                    Ville <span style="color: #f44336;">*</span>
+                                </label>
+                                <select id="clientCity" required
+                                        style="width: 100%; padding: 12px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif; background: white;">
+                                    <option value="">Choisir une ville</option>
+                                    <option value="Douala" ${clientInfo.ville === 'Douala' ? 'selected' : ''}>Douala</option>
+                                    <option value="Yaoundé" ${clientInfo.ville === 'Yaoundé' ? 'selected' : ''}>Yaoundé</option>
+                                    <option value="Bafoussam" ${clientInfo.ville === 'Bafoussam' ? 'selected' : ''}>Bafoussam</option>
+                                    <option value="Bamenda" ${clientInfo.ville === 'Bamenda' ? 'selected' : ''}>Bamenda</option>
+                                    <option value="Garoua" ${clientInfo.ville === 'Garoua' ? 'selected' : ''}>Garoua</option>
+                                    <option value="Maroua" ${clientInfo.ville === 'Maroua' ? 'selected' : ''}>Maroua</option>
+                                    <option value="Ngaoundéré" ${clientInfo.ville === 'Ngaoundéré' ? 'selected' : ''}>Ngaoundéré</option>
+                                    <option value="Bertoua" ${clientInfo.ville === 'Bertoua' ? 'selected' : ''}>Bertoua</option>
+                                    <option value="Limbé" ${clientInfo.ville === 'Limbé' ? 'selected' : ''}>Limbé</option>
+                                    <option value="Kribi" ${clientInfo.ville === 'Kribi' ? 'selected' : ''}>Kribi</option>
+                                    <option value="Autre">Autre ville</option>
+                                </select>
+                            </div>
+
+                            <div id="autreVilleContainer" style="display: none;">
+                                <label style="display: block; font-weight: 500; margin-bottom: 8px;">
+                                    Précisez votre ville
+                                </label>
+                                <input type="text" id="autreVille" 
+                                       placeholder="Nom de votre ville"
+                                       style="width: 100%; padding: 12px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif;">
+                            </div>
+
+                            <div>
+                                <label style="display: block; font-weight: 500; margin-bottom: 8px;">
+                                    Adresse de livraison <span style="color: #f44336;">*</span>
+                                </label>
+                                <textarea id="clientAddress" 
+                                          placeholder="Quartier, rue, immeuble..." 
+                                          required
+                                          rows="3"
+                                          style="width: 100%; padding: 12px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif; resize: vertical;">${clientInfo.adresse || ''}</textarea>
+                            </div>
+
+                            <div style="background: var(--bg-general); padding: 16px; border-radius: 12px; margin-top: 8px;">
+                                <h4 style="margin-bottom: 12px; color: var(--primary-color);">Récapitulatif</h4>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span>Articles (${panier.reduce((sum, item) => sum + item.quantite, 0)})</span>
+                                    <span>${panier.reduce((sum, item) => sum + (item.prix * item.quantite), 0).toLocaleString('fr-FR')} ${devise}</span>
+                                </div>
+                                <div id="fraisLivraison" style="display: flex; justify-content: space-between; margin-bottom: 8px; color: var(--text-secondary);">
+                                    <span>Frais de livraison</span>
+                                    <span>-</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem; padding-top: 8px; border-top: 2px solid rgba(199, 125, 255, 0.2); color: var(--primary-color);">
+                                    <span>Total</span>
+                                    <span id="totalAvecLivraison">${panier.reduce((sum, item) => sum + (item.prix * item.quantite), 0).toLocaleString('fr-FR')} ${devise}</span>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 20px;">
+                                <h4 style="margin-bottom: 12px; color: var(--primary-color);">💳 Mode de paiement</h4>
+                                <div id="paymentMethods" style="display: flex; flex-direction: column; gap: 12px;">
+                                    <!-- Généré dynamiquement -->
+                                </div>
+                            </div>
+
+                            <button type="submit" class="checkout-btn" style="margin-top: 16px;">
+                                ✅ Confirmer la commande
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            const citySelect = document.getElementById('clientCity');
+            const autreVilleContainer = document.getElementById('autreVilleContainer');
+            
+            citySelect.addEventListener('change', (e) => {
+                if (e.target.value === 'Autre') {
+                    autreVilleContainer.style.display = 'block';
+                } else {
+                    autreVilleContainer.style.display = 'none';
+                }
+                calculerFraisLivraison(e.target.value);
+            });
+
+            if (citySelect.value === 'Autre') {
+                autreVilleContainer.style.display = 'block';
+            }
+
+            chargerMethodesPaiement();
+
+            const form = document.getElementById('clientForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                validerEtCommander();
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'checkoutModal') {
+                    fermerFormulaireClient();
+                }
+            });
+        }
+
+        function calculerFraisLivraison(ville) {
+            const sousTotal = panier.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
+            const devise = parametres.paiement?.devise || 'FCFA';
+            
+            let fraisLivraison = 0;
+            const fraisDouala = parametres.livraison?.fraisDouala || 1000;
+            const fraisAutres = parametres.livraison?.fraisAutres || 2500;
+            const livraisonGratuite = parametres.livraison?.livraisonGratuite || false;
+            const montantMinimum = parametres.livraison?.montantMinimum || 50000;
+
+            if (livraisonGratuite && sousTotal >= montantMinimum) {
+                fraisLivraison = 0;
+            } else {
+                if (ville === 'Douala') {
+                    fraisLivraison = fraisDouala;
+                } else if (ville && ville !== '') {
+                    fraisLivraison = fraisAutres;
+                }
+            }
+
+            const fraisElement = document.getElementById('fraisLivraison');
+            if (fraisElement) {
+                if (fraisLivraison === 0 && sousTotal >= montantMinimum && livraisonGratuite) {
+                    fraisElement.innerHTML = `
+                        <span>Frais de livraison</span>
+                        <span style="color: #4CAF50; font-weight: 600;">GRATUIT 🎉</span>
+                    `;
+                } else if (fraisLivraison > 0) {
+                    fraisElement.innerHTML = `
+                        <span>Frais de livraison</span>
+                        <span>${fraisLivraison.toLocaleString('fr-FR')} ${devise}</span>
+                    `;
+                } else {
+                    fraisElement.innerHTML = `
+                        <span>Frais de livraison</span>
+                        <span>-</span>
+                    `;
+                }
+            }
+
+            const totalElement = document.getElementById('totalAvecLivraison');
+            if (totalElement) {
+                const total = sousTotal + fraisLivraison;
+                totalElement.textContent = `${total.toLocaleString('fr-FR')} ${devise}`;
+            }
+
+            return fraisLivraison;
+        }
+
+        function chargerMethodesPaiement() {
+            const container = document.getElementById('paymentMethods');
+            if (!container) return;
+
+            const methodesDisponibles = [];
+
+            if (parametres.paiement?.carteBancaire !== false) {
+                methodesDisponibles.push({
+                    id: 'carte',
+                    nom: 'Carte bancaire',
+                    icon: '💳',
+                    description: 'Visa, Mastercard'
+                });
+            }
+
+            if (parametres.paiement?.mobileMoney !== false) {
+                methodesDisponibles.push({
+                    id: 'mobile',
+                    nom: 'Mobile Money',
+                    icon: '📱',
+                    description: 'MTN, Orange, Moov'
+                });
+            }
+
+            if (parametres.paiement?.paiementLivraison !== false) {
+                methodesDisponibles.push({
+                    id: 'cash',
+                    nom: 'Paiement à la livraison',
+                    icon: '💵',
+                    description: 'En espèces'
+                });
+            }
+
+            if (methodesDisponibles.length === 0) {
+                methodesDisponibles.push(
+                    { id: 'carte', nom: 'Carte bancaire', icon: '💳', description: 'Visa, Mastercard' },
+                    { id: 'mobile', nom: 'Mobile Money', icon: '📱', description: 'MTN, Orange, Moov' },
+                    { id: 'cash', nom: 'Paiement à la livraison', icon: '💵', description: 'En espèces' }
+                );
+            }
+
+            container.innerHTML = methodesDisponibles.map((methode, index) => `
+                <label style="display: flex; align-items: center; gap: 12px; padding: 14px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; cursor: pointer; transition: all 0.3s ease;" 
+                       onmouseover="this.style.borderColor='var(--primary-color)'; this.style.background='rgba(199, 125, 255, 0.05)';"
+                       onmouseout="if(!this.querySelector('input').checked) { this.style.borderColor='rgba(199, 125, 255, 0.2)'; this.style.background='white'; }"
+                       onclick="this.style.borderColor='var(--primary-color)'; this.style.background='rgba(199, 125, 255, 0.05)';">
+                    <input type="radio" name="paymentMethod" value="${methode.id}" ${index === 0 ? 'checked' : ''} 
+                           style="width: 20px; height: 20px; cursor: pointer;"
+                           onchange="document.querySelectorAll('label').forEach(l => { l.style.borderColor='rgba(199, 125, 255, 0.2)'; l.style.background='white'; }); this.parentElement.style.borderColor='var(--primary-color)'; this.parentElement.style.background='rgba(199, 125, 255, 0.05)';">
+                    <span style="font-size: 1.8rem;">${methode.icon}</span>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; margin-bottom: 2px;">${methode.nom}</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">${methode.description}</div>
+                    </div>
+                </label>
+            `).join('');
+
+            const firstLabel = container.querySelector('label');
+            if (firstLabel) {
+                firstLabel.style.borderColor = 'var(--primary-color)';
+                firstLabel.style.background = 'rgba(199, 125, 255, 0.05)';
+            }
+        }
+
+        function fermerFormulaireClient() {
+            const modal = document.getElementById('checkoutModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function validerEtCommander() {
+            const nom = document.getElementById('clientFullName').value.trim();
+            const email = document.getElementById('clientEmail').value.trim();
+            const telephone = document.getElementById('clientPhone').value.trim();
+            let ville = document.getElementById('clientCity').value;
+            const adresse = document.getElementById('clientAddress').value.trim();
+            const methodePaiement = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+            if (ville === 'Autre') {
+                const autreVille = document.getElementById('autreVille').value.trim();
+                if (!autreVille) {
+                    afficherNotification('⚠️ Veuillez préciser votre ville', 'warning');
+                    return;
+                }
+                ville = autreVille;
+            }
+
+            if (!nom || !email || !telephone || !ville || !adresse) {
+                afficherNotification('⚠️ Veuillez remplir tous les champs obligatoires', 'warning');
+                return;
+            }
+
+            if (!methodePaiement) {
+                afficherNotification('⚠️ Veuillez sélectionner un mode de paiement', 'warning');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                afficherNotification('⚠️ Email invalide', 'warning');
+                return;
+            }
+
+            const fraisLivraison = calculerFraisLivraison(ville);
+
+            const clientInfo = {
+                nom: nom,
+                email: email,
+                telephone: telephone,
+                ville: ville,
+                adresse: adresse,
+                methodePaiement: methodePaiement,
+                fraisLivraison: fraisLivraison
+            };
+
+            localStorage.setItem('client_info', JSON.stringify(clientInfo));
+            
+            // Afficher le formulaire de paiement selon la méthode choisie
+            if (methodePaiement === 'cash') {
+                // Paiement à la livraison - pas besoin de formulaire
+                enregistrerClientDansSysteme(clientInfo);
+                creerCommande(clientInfo);
+                fermerFormulaireClient();
+            } else {
+                // Afficher le formulaire de paiement approprié
+                fermerFormulaireClient();
+                afficherFormulairePaiement(clientInfo);
+            }
+        }
+
+        // Afficher le formulaire de paiement
+        function afficherFormulairePaiement(clientInfo) {
+            const modal = document.createElement('div');
+            modal.id = 'paymentFormModal';
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+
+            const sousTotal = panier.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
+            const total = sousTotal + clientInfo.fraisLivraison;
+            const devise = parametres.paiement?.devise || 'FCFA';
+
+            let formulaireHTML = '';
+
+            if (clientInfo.methodePaiement === 'carte') {
+                formulaireHTML = `
+                    <div class="payment-form-container">
+                        <div class="payment-header-info">
+                            <div class="payment-icon">💳</div>
+                            <h3>Paiement par Carte Bancaire</h3>
+                            <p>Sécurisé et instantané</p>
+                        </div>
+
+                        <div class="payment-amount-display">
+                            <span>Montant à payer</span>
+                            <span class="payment-amount">${total.toLocaleString('fr-FR')} ${devise}</span>
+                        </div>
+
+                        <form id="paymentForm" class="payment-form">
+                            <div class="form-group">
+                                <label>Numéro de carte <span style="color: #f44336;">*</span></label>
+                                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" 
+                                       maxlength="19" required
+                                       style="width: 100%; padding: 14px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 1rem;">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nom sur la carte <span style="color: #f44336;">*</span></label>
+                                <input type="text" id="cardName" placeholder="JEAN DUPONT" 
+                                       value="${clientInfo.nom.toUpperCase()}" required
+                                       style="width: 100%; padding: 14px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 1rem;">
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div class="form-group">
+                                    <label>Date d'expiration <span style="color: #f44336;">*</span></label>
+                                    <input type="text" id="cardExpiry" placeholder="MM/AA" 
+                                           maxlength="5" required
+                                           style="width: 100%; padding: 14px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 1rem;">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>CVV <span style="color: #f44336;">*</span></label>
+                                    <input type="text" id="cardCVV" placeholder="123" 
+                                           maxlength="4" required
+                                           style="width: 100%; padding: 14px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 1rem;">
+                                </div>
+                            </div>
+
+                            <div class="payment-security-info">
+                                <span style="font-size: 1.5rem;">🔒</span>
+                                <div>
+                                    <strong>Paiement 100% sécurisé</strong>
+                                    <p>Vos informations sont cryptées et protégées</p>
+                                </div>
+                            </div>
+
+                            <div class="api-integration-zone">
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; text-align: center; margin-bottom: 12px;">
+                                    <!-- ZONE D'INTÉGRATION API CARTE BANCAIRE -->
+                                    <!-- Intégrez ici votre API de paiement (Stripe, PayPal, etc.) -->
+                                </p>
+                            </div>
+
+                            <button type="submit" class="payment-submit-btn">
+                                💳 Payer ${total.toLocaleString('fr-FR')} ${devise}
+                            </button>
+                        </form>
+                    </div>
+                `;
+            } else if (clientInfo.methodePaiement === 'mobile') {
+                formulaireHTML = `
+                    <div class="payment-form-container">
+                        <div class="payment-header-info">
+                            <div class="payment-icon">📱</div>
+                            <h3>Paiement Mobile Money</h3>
+                            <p>MTN, Orange, Moov Money</p>
+                        </div>
+
+                        <div class="payment-amount-display">
+                            <span>Montant à payer</span>
+                            <span class="payment-amount">${total.toLocaleString('fr-FR')} ${devise}</span>
+                        </div>
+
+                        <form id="paymentForm" class="payment-form">
+                            <div class="form-group">
+                                <label>Opérateur Mobile Money <span style="color: #f44336;">*</span></label>
+                                <select id="mobileOperator" required
+                                        style="width: 100%; padding: 14px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 1rem; background: white;">
+                                    <option value="">Choisir un opérateur</option>
+                                    <option value="mtn">🟡 MTN Mobile Money</option>
+                                    <option value="orange">🟠 Orange Money</option>
+                                    <option value="moov">🔵 Moov Money</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Numéro de téléphone <span style="color: #f44336;">*</span></label>
+                                <input type="tel" id="mobileNumber" placeholder="+237 6XX XXX XXX" 
+                                       value="${clientInfo.telephone}" required
+                                       style="width: 100%; padding: 14px; border: 2px solid rgba(199, 125, 255, 0.2); border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 1rem;">
+                            </div>
+
+                            <div class="payment-instructions">
+                                <div style="background: rgba(255, 193, 7, 0.1); padding: 16px; border-radius: 12px; border-left: 4px solid #FFC107;">
+                                    <strong style="color: #F57C00;">⚠️ Instructions de paiement</strong>
+                                    <ol style="margin: 12px 0 0 20px; color: var(--text-secondary); font-size: 0.9rem;">
+                                        <li>Composez le code USSD de votre opérateur</li>
+                                        <li>Entrez le code de confirmation reçu par SMS</li>
+                                        <li>Validez le paiement sur votre téléphone</li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="api-integration-zone">
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; text-align: center; margin-bottom: 12px;">
+                                    <!-- ZONE D'INTÉGRATION API MOBILE MONEY -->
+                                    <!-- Intégrez ici votre API Mobile Money (MTN, Orange, Moov) -->
+                                </p>
+                            </div>
+
+                            <button type="submit" class="payment-submit-btn">
+                                📱 Payer ${total.toLocaleString('fr-FR')} ${devise}
+                            </button>
+                        </form>
+                    </div>
+                `;
+            }
+
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 550px;">
+                    <div class="modal-header">
+                        <h2>💰 Finaliser le paiement</h2>
+                        <button class="modal-close" onclick="annulerPaiement()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        ${formulaireHTML}
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Formatage automatique pour carte bancaire
+            if (clientInfo.methodePaiement === 'carte') {
+                const cardNumberInput = document.getElementById('cardNumber');
+                cardNumberInput.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\s/g, '');
+                    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                    e.target.value = formattedValue;
+                });
+
+                const cardExpiryInput = document.getElementById('cardExpiry');
+                cardExpiryInput.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                    }
+                    e.target.value = value;
+                });
+
+                const cardCVVInput = document.getElementById('cardCVV');
+                cardCVVInput.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                });
+            }
+
+            // Gestion de la soumission du formulaire de paiement
+            const paymentForm = document.getElementById('paymentForm');
+            paymentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                traiterPaiement(clientInfo);
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'paymentFormModal') {
+                    if (confirm('Êtes-vous sûr de vouloir annuler le paiement ?')) {
+                        annulerPaiement();
+                    }
+                }
+            });
+        }
+
+        // Traiter le paiement
+        function traiterPaiement(clientInfo) {
+            const submitBtn = document.querySelector('.payment-submit-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            // Désactiver le bouton et afficher le chargement
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '⏳ Traitement en cours...';
+            submitBtn.style.background = '#ccc';
+
+            // Récupérer les données de paiement
+            let paymentData = {
+                methodePaiement: clientInfo.methodePaiement,
+                montant: panier.reduce((sum, item) => sum + (item.prix * item.quantite), 0) + clientInfo.fraisLivraison,
+                devise: parametres.paiement?.devise || 'FCFA',
+                client: clientInfo
+            };
+
+            if (clientInfo.methodePaiement === 'carte') {
+                paymentData.carte = {
+                    numero: document.getElementById('cardNumber').value.replace(/\s/g, ''),
+                    nom: document.getElementById('cardName').value,
+                    expiration: document.getElementById('cardExpiry').value,
+                    cvv: document.getElementById('cardCVV').value
+                };
+            } else if (clientInfo.methodePaiement === 'mobile') {
+                paymentData.mobile = {
+                    operateur: document.getElementById('mobileOperator').value,
+                    numero: document.getElementById('mobileNumber').value
+                };
+            }
+
+            // ===================================
+            // ZONE D'INTÉGRATION API DE PAIEMENT
+            // ===================================
+            // Intégrez ici votre appel API de paiement
+            // Exemple:
+            /*
+            fetch('VOTRE_URL_API_PAIEMENT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer VOTRE_TOKEN_API'
+                },
+                body: JSON.stringify(paymentData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    confirmerPaiementReussi(clientInfo, data.transactionId);
+                } else {
+                    afficherErreurPaiement(data.message);
+                }
+            })
+            .catch(error => {
+                afficherErreurPaiement('Erreur de connexion au serveur de paiement');
+            });
+            */
+
+            // Simulation de paiement (À REMPLACER PAR VOTRE API)
+            setTimeout(() => {
+                // Simuler un paiement réussi
+                const simulationReussie = Math.random() > 0.1; // 90% de succès
+                
+                if (simulationReussie) {
+                    const transactionId = 'TRX-' + Date.now();
+                    confirmerPaiementReussi(clientInfo, transactionId);
+                } else {
+                    afficherErreurPaiement('Le paiement a été refusé. Veuillez vérifier vos informations.');
+                }
+            }, 3000);
+        }
+
+        // Confirmer le paiement réussi
+        function confirmerPaiementReussi(clientInfo, transactionId) {
+            // Fermer le modal de paiement
+            const paymentModal = document.getElementById('paymentFormModal');
+            if (paymentModal) {
+                paymentModal.remove();
+            }
+
+            // Ajouter l'ID de transaction aux infos client
+            clientInfo.transactionId = transactionId;
+
+            // Enregistrer la commande
+            enregistrerClientDansSysteme(clientInfo);
+            creerCommande(clientInfo);
+
+            // Afficher la confirmation
+            afficherNotification('🎉 Paiement effectué avec succès !', 'success');
+        }
+
+        // Afficher une erreur de paiement
+        function afficherErreurPaiement(message) {
+            const submitBtn = document.querySelector('.payment-submit-btn');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = submitBtn.innerHTML.replace('⏳ Traitement en cours...', '💳 Réessayer le paiement');
+            submitBtn.style.background = '';
+
+            afficherNotification(`❌ ${message}`, 'error');
+        }
+
+        // Annuler le paiement
+        function annulerPaiement() {
+            const paymentModal = document.getElementById('paymentFormModal');
+            if (paymentModal) {
+                paymentModal.remove();
+            }
+            afficherNotification('❌ Paiement annulé', 'error');
+        }
+
+        function enregistrerClientDansSysteme(clientInfo) {
+            let clients = JSON.parse(localStorage.getItem('clients_boutique') || '[]');
+            let client = clients.find(c => c.email === clientInfo.email);
+
+            const montantCommande = panier.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
+            const achats = panier.map(item => ({
+                produit: item.nom,
+                prix: item.prix,
+                quantite: item.quantite,
+                date: new Date().toISOString()
+            }));
+
+            if (client) {
+                client.telephone = clientInfo.telephone;
+                client.ville = clientInfo.ville;
+                client.adresse = clientInfo.adresse;
+                client.nombreCommandes = (client.nombreCommandes || 0) + 1;
+                client.totalDepense = (client.totalDepense || 0) + montantCommande;
+                client.achats = [...(client.achats || []), ...achats];
+                client.derniereCommande = new Date().toISOString();
+
+                if (client.totalDepense > 200000) {
+                    client.statut = 'vip';
+                } else {
+                    client.statut = 'regular';
+                }
+            } else {
+                const prenom = clientInfo.nom.split(' ')[0];
+                const nomFamille = clientInfo.nom.split(' ').slice(1).join(' ') || prenom;
+                const avatar = `${prenom[0]}${nomFamille[0]}`.toUpperCase();
+
+                client = {
+                    id: Date.now(),
+                    nom: clientInfo.nom,
+                    prenom: prenom,
+                    avatar: avatar,
+                    email: clientInfo.email,
+                    telephone: clientInfo.telephone,
+                    ville: clientInfo.ville,
+                    adresse: clientInfo.adresse,
+                    dateInscription: new Date().toISOString(),
+                    nombreCommandes: 1,
+                    totalDepense: montantCommande,
+                    statut: 'new',
+                    achats: achats,
+                    derniereCommande: new Date().toISOString()
+                };
+
+                clients.push(client);
+            }
+
+            localStorage.setItem('clients_boutique', JSON.stringify(clients));
+        }
+
+        function creerCommande(clientInfo) {
+            const commandes = JSON.parse(localStorage.getItem('commandes_ecommerce') || '[]');
+            const sousTotal = panier.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
+            const fraisLivraison = clientInfo.fraisLivraison || 0;
+            const montantTotal = sousTotal + fraisLivraison;
+            const devise = parametres.paiement?.devise || 'FCFA';
+
+            const methodesNoms = {
+                'carte': 'Carte bancaire',
+                'mobile': 'Mobile Money',
+                'cash': 'Paiement à la livraison'
+            };
+            
+            const nouvelleCommande = {
+                id: `CMD-${Date.now()}`,
+                numero: `#${1000 + commandes.length}`,
+                client: {
+                    nom: clientInfo.nom,
+                    email: clientInfo.email,
+                    tel: clientInfo.telephone
+                },
+                produits: panier.map(item => ({
+                    id: item.id,
+                    nom: item.nom,
+                    prix: item.prix,
+                    quantite: item.quantite,
+                    image: item.image
+                })),
+                sousTotal: sousTotal,
+                fraisLivraison: fraisLivraison,
+                montantTotal: montantTotal,
+                devise: devise,
+                methodePaiement: methodesNoms[clientInfo.methodePaiement] || 'Non spécifié',
+                statut: 'pending',
+                date: new Date().toISOString(),
+                adresseLivraison: `${clientInfo.adresse}, ${clientInfo.ville}`
+            };
+
+            commandes.push(nouvelleCommande);
+            localStorage.setItem('commandes_ecommerce', JSON.stringify(commandes));
+
+            const produitsList = JSON.parse(localStorage.getItem('produits_ecommerce') || '[]');
+            panier.forEach(item => {
+                const produit = produitsList.find(p => p.id === item.id);
+                if (produit) {
+                    produit.stock -= item.quantite;
+                }
+            });
+            localStorage.setItem('produits_ecommerce', JSON.stringify(produitsList));
+
+            panier = [];
+            sauvegarderPanier();
+            toggleCart();
+
+            afficherNotification('🎉 Commande passée avec succès !', 'success');
+            
+            chargerProduits();
+            applyFilters();
+
+            setTimeout(() => {
+                const detailsLivraison = fraisLivraison > 0 
+                    ? `\nFrais de livraison: ${fraisLivraison.toLocaleString('fr-FR')} ${devise}`
+                    : '\n🎉 Livraison GRATUITE !';
+
+                alert(`✅ Commande confirmée !\n\n` +
+                      `Numéro: ${nouvelleCommande.numero}\n` +
+                      `Sous-total: ${sousTotal.toLocaleString('fr-FR')} ${devise}${detailsLivraison}\n` +
+                      `Total: ${montantTotal.toLocaleString('fr-FR')} ${devise}\n\n` +
+                      `Mode de paiement: ${nouvelleCommande.methodePaiement}\n` +
+                      `Livraison: ${clientInfo.ville}\n\n` +
+                      `Merci ${clientInfo.nom} !\n` +
+                      `Nous vous contacterons bientôt au ${clientInfo.telephone}.`);
+            }, 500);
+        }
+
+        // Notification
+        function afficherNotification(message, type = 'success') {
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.textContent = message;
+
+            const colors = {
+                success: '#4CAF50',
+                warning: '#FF9800',
+                error: '#f44336'
+            };
+
+            notif.style.borderLeftColor = colors[type] || colors.success;
+            document.body.appendChild(notif);
+
+            setTimeout(() => {
+                notif.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+
+        // Recherche
+        document.getElementById('searchBox').addEventListener('input', applyFilters);
+
+        // Fermer modal en cliquant dehors
+        document.getElementById('productModal').addEventListener('click', (e) => {
+            if (e.target.id === 'productModal') {
+                closeProductModal();
+            }
+        });
+
+        // Système de messagerie
+        let conversationClient = [];
+        let clientName = localStorage.getItem('client_name') || '';
+
+        function toggleMessaging() {
+            const modal = document.getElementById('messagingModal');
+            modal.classList.toggle('active');
+            
+            if (modal.classList.contains('active')) {
+                document.getElementById('contactChoice').style.display = 'flex';
+                document.getElementById('chatInterface').style.display = 'none';
+                chargerConversationClient();
+            }
+        }
+
+        function contacterWhatsApp() {
+            let messageWhatsApp = `Bonjour ! Je vous contacte depuis ${parametres.general?.nom || 'votre boutique en ligne'}.`;
+            
+            if (panier.length > 0) {
+                messageWhatsApp += "\n\nJe suis intéressé(e) par :\n";
+                panier.forEach(item => {
+                    messageWhatsApp += `- ${item.nom} (${item.quantite}x)\n`;
+                });
+                const total = panier.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
+                const devise = parametres.paiement?.devise || 'FCFA';
+                messageWhatsApp += `\nTotal : ${total.toLocaleString('fr-FR')} ${devise}`;
+            }
+
+            const encodedMessage = encodeURIComponent(messageWhatsApp);
+            const telephone = parametres.general?.telephone || whatsappNumber;
+            const numeroNettoye = telephone.replace(/[^0-9]/g, '');
+            const whatsappUrl = `https://wa.me/${numeroNettoye}?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+            
+            toggleMessaging();
+            afficherNotification('📱 Ouverture de WhatsApp...', 'success');
+        }
+
+        function ouvrirChatInterne() {
+            document.getElementById('contactChoice').style.display = 'none';
+            document.getElementById('chatInterface').style.display = 'flex';
+            
+            if (clientName) {
+                document.getElementById('clientName').value = clientName;
+            }
+        }
+
+        function retourChoixContact() {
+            document.getElementById('contactChoice').style.display = 'flex';
+            document.getElementById('chatInterface').style.display = 'none';
+        }
+
+        function chargerConversationClient() {
+            const conversation = localStorage.getItem('conversation_client');
+            if (conversation) {
+                conversationClient = JSON.parse(conversation);
+                afficherConversationClient();
+            }
+        }
+
+        function afficherConversationClient() {
+            const chatArea = document.getElementById('chatMessagesArea');
+            
+            if (conversationClient.length === 0) {
+                chatArea.innerHTML = `
+                    <div class="welcome-message">
+                        <div class="welcome-icon">👋</div>
+                        <h3>Bienvenue !</h3>
+                        <p>Posez-nous vos questions, nous sommes là pour vous aider</p>
+                    </div>
+                `;
+                return;
+            }
+
+            chatArea.innerHTML = conversationClient.map(msg => {
+                if (msg.type === 'client') {
+                    return `
+                        <div class="client-message-bubble">
+                            <div><strong>${msg.nom}</strong></div>
+                            <div>${msg.message}</div>
+                            <div class="message-time">${new Date(msg.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</div>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <div class="admin-message-bubble">
+                            <div><strong>${parametres.general?.nom || 'Boutique'}</strong></div>
+                            <div>${msg.message}</div>
+                            <div class="message-time">${new Date(msg.date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</div>
+                        </div>
+                    `;
+                }
+            }).join('');
+
+            setTimeout(() => {
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 100);
+        }
+
+        function envoyerMessageClient() {
+            const nomInput = document.getElementById('clientName');
+            const messageInput = document.getElementById('clientMessage');
+            
+            const nom = nomInput.value.trim();
+            const message = messageInput.value.trim();
+
+            if (!nom) {
+                afficherNotification('⚠️ Veuillez entrer votre nom', 'warning');
+                nomInput.focus();
+                return;
+            }
+
+            if (!message) {
+                afficherNotification('⚠️ Veuillez écrire un message', 'warning');
+                messageInput.focus();
+                return;
+            }
+
+            clientName = nom;
+            localStorage.setItem('client_name', nom);
+
+            const nouveauMessage = {
+                type: 'client',
+                nom: nom,
+                message: message,
+                date: new Date().toISOString()
+            };
+
+            conversationClient.push(nouveauMessage);
+            localStorage.setItem('conversation_client', JSON.stringify(conversationClient));
+
+            envoyerVersSystemeAdmin(nom, message);
+            messageInput.value = '';
+            afficherConversationClient();
+            afficherNotification('✅ Message envoyé !', 'success');
+
+            setTimeout(() => {
+                simulerReponseAuto();
+            }, 2000);
+        }
+
+        function envoyerVersSystemeAdmin(nom, message) {
+            let messagesAdmin = JSON.parse(localStorage.getItem('messages_boutique') || '[]');
+            let conversation = messagesAdmin.find(m => m.client === nom);
+
+            const nouveauMsg = {
+                expediteur: nom,
+                message: message,
+                date: new Date().toISOString(),
+                type: 'received'
+            };
+
+            if (conversation) {
+                conversation.conversation.push(nouveauMsg);
+                conversation.dernierMessage = message;
+                conversation.date = nouveauMsg.date;
+                conversation.nonLu = true;
+            } else {
+                const avatar = nom.split(' ').map(n => n[0]).join('').toUpperCase();
+                messagesAdmin.unshift({
+                    id: Date.now(),
+                    client: nom,
+                    avatar: avatar,
+                    dernierMessage: message,
+                    date: nouveauMsg.date,
+                    nonLu: true,
+                    conversation: [nouveauMsg]
+                });
+            }
+
+            localStorage.setItem('messages_boutique', JSON.stringify(messagesAdmin));
+        }
+
+        function simulerReponseAuto() {
+            const chatArea = document.getElementById('chatMessagesArea');
+            
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator';
+            typingIndicator.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            chatArea.appendChild(typingIndicator);
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            setTimeout(() => {
+                typingIndicator.remove();
+
+                const reponses = [
+                    "Merci pour votre message ! Nous vous répondrons dans les plus brefs délais 😊",
+                    "Nous avons bien reçu votre message. Un conseiller vous contactera bientôt !",
+                    "Merci de nous avoir contactés ! Nous revenons vers vous très rapidement.",
+                    "Message bien reçu ! Notre équipe va traiter votre demande.",
+                    "Merci ! Nous allons examiner votre demande et vous répondre sous peu."
+                ];
+
+                const reponse = {
+                    type: 'admin',
+                    message: reponses[Math.floor(Math.random() * reponses.length)],
+                    date: new Date().toISOString()
+                };
+
+                conversationClient.push(reponse);
+                localStorage.setItem('conversation_client', JSON.stringify(conversationClient));
+                afficherConversationClient();
+            }, 2000);
+        }
+
+        // Fermer la messagerie en cliquant dehors
+        document.addEventListener('click', (e) => {
+            const messagingModal = document.getElementById('messagingModal');
+            if (e.target === messagingModal) {
+                toggleMessaging();
+            }
+        });
+
+        // Touches Enter pour envoyer
+        document.addEventListener('keydown', (e) => {
+            const messageInput = document.getElementById('clientMessage');
+            if (e.key === 'Enter' && !e.shiftKey && document.activeElement === messageInput) {
+                e.preventDefault();
+                envoyerMessageClient();
+            }
+        });
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            chargerParametres();
+            chargerProduits();
+            chargerPanier();
+            afficherProduits();
+            
+            console.log('🛍️ Site e-commerce chargé !');
+            console.log(`📦 ${produits.length} produits disponibles`);
+            console.log(`🛒 ${panier.length} article(s) dans le panier`);
+        });
+
+        // Navigation mobile
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Gestion du scroll pour masquer/afficher le header
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // Raccourcis clavier
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeProductModal();
+                document.getElementById('cartModal').classList.remove('active');
+                document.getElementById('messagingModal').classList.remove('active');
+            }
+
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('searchBox').focus();
+            }
+        });
+
+        console.log('%c🛍️ Bienvenue sur Ma Boutique Élégante !', 'color: #C77DFF; font-size: 20px; font-weight: bold;');
+        console.log('%c✨ Site e-commerce optimisé pour mobile', 'color: #F3D1F4; font-size: 14px;');
+        console.log('%cRaccourcis :', 'color: #B983FF; font-weight: bold;');
+        console.log('  • Échap : Fermer les modals');
+        console.log('  • Ctrl/Cmd + K : Rechercher');
+    </script>
+</body>
+</html>
