@@ -655,7 +655,23 @@
 
         createParticles();
 
-        // Gestion des onglets
+        //
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA97b-iZrIfKx59fMr_9kpRZq3Hbv0wngQ",
+  authDomain: "boutique-4a35a.firebaseapp.com",
+  projectId: "boutique-4a35a",
+  storageBucket: "boutique-4a35a.firebasestorage.app",
+  messagingSenderId: "975818338901",
+  appId: "1:975818338901:web:6c468c989a6f7e29441adc",
+  measurementId: "G-8VNW7BE3M5"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app); Gestion des onglets
         const tabs = document.querySelectorAll('.tab');
         const forms = document.querySelectorAll('.form');
 

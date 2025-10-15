@@ -1255,6 +1255,52 @@
     </div>
 
     <script>
+
+
+fetchProduits().then(produits => {
+  const container = document.getElementById("liste-produits");
+  produits.forEach(p => {
+    container.innerHTML += `
+      <div>
+        <h3>${p.nom}</h3>
+        <img src="${p.image}" width="200">
+      </div>
+    `;
+  });
+});
+
+
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebaseConfig";
+
+async function fetchProduits() {
+  const querySnapshot = await getDocs(collection(db, "produits"));
+  const produits = [];
+  querySnapshot.forEach((doc) => {
+    produits.push(doc.data());
+  });
+  return produits;
+}
+
+
+
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA97b-iZrIfKx59fMr_9kpRZq3Hbv0wngQ",
+  authDomain: "boutique-4a35a.firebaseapp.com",
+  projectId: "boutique-4a35a",
+  storageBucket: "boutique-4a35a.firebasestorage.app",
+  messagingSenderId: "975818338901",
+  appId: "1:975818338901:web:6c468c989a6f7e29441adc",
+  measurementId: "G-8VNW7BE3M5"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
         let produits = [];
         let panier = [];
         let filteredProduits = [];
@@ -2193,12 +2239,8 @@
                 };
             }
 
-            // ===================================
-            // ZONE D'INTÉGRATION API DE PAIEMENT
-            // ===================================
-            // Intégrez ici votre appel API de paiement
-            // Exemple:
-            /*
+           
+            
             fetch('VOTRE_URL_API_PAIEMENT', {
                 method: 'POST',
                 headers: {
@@ -2218,7 +2260,7 @@
             .catch(error => {
                 afficherErreurPaiement('Erreur de connexion au serveur de paiement');
             });
-            */
+            
 
             // Simulation de paiement (À REMPLACER PAR VOTRE API)
             setTimeout(() => {
